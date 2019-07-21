@@ -8,7 +8,8 @@ BOOST_PYTHON_MODULE(openFABMAP)
 {
     boost::python::class_<pyof2::FabMapVocabluary, std::shared_ptr<pyof2::FabMapVocabluary>>(
             "Vocabluary", boost::python::no_init);
-    
+    boost::python::register_ptr_to_python<std::shared_ptr<pyof2::FabMapVocabluary > >();
+
     boost::python::class_<pyof2::FabMapVocabluaryBuilder, std::shared_ptr<pyof2::FabMapVocabluaryBuilder>>(
             "VocabluaryBuilder", boost::python::init<boost::python::dict>())
         .def("add_training_image", &pyof2::FabMapVocabluaryBuilder::addTrainingImage)
