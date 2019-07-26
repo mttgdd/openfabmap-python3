@@ -25,7 +25,7 @@ PYBIND11_MODULE(openFABMAP, m) {
            &pyof2::FabMapVocabluaryBuilder::buildVocabluary);
 
   pybind11::class_<pyof2::ChowLiuTreeWrapper, std::shared_ptr<pyof2::ChowLiuTreeWrapper>>(
-      m, "ChowLiuTree")
+      m, "ChowLiuTreeWrapper")
       .def(pybind11::init<std::shared_ptr<pyof2::FabMapVocabluary>,
                           pybind11::dict>())
       .def("add_training_image", &pyof2::ChowLiuTreeWrapper::addTrainingImage)
