@@ -17,7 +17,7 @@ PYBIND11_MODULE(openFABMAP, m) {
 
   pybind11::class_<pyof2::FabMapVocabluaryBuilder,
                    std::shared_ptr<pyof2::FabMapVocabluaryBuilder>>(
-      m, "FabMapVocabluaryBuilder")
+      m, "VocabluaryBuilder")
       .def(pybind11::init<pybind11::dict>())
       .def("add_training_image",
            &pyof2::FabMapVocabluaryBuilder::addTrainingImage)
