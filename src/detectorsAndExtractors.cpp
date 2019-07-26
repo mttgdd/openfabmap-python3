@@ -60,16 +60,16 @@ cv::Ptr<cv::FeatureDetector> createSURF(const pybind11::dict& settings)
         hessianThreshold = settings["HessianThreshold"].cast<double>();
     }
     if (settings.contains("NumOctaves")) {
-        nOctaves = boost::python::extract<int>(settings.get("NumOctaves"));
+        nOctaves = settings["NumOctaves"].cast<int>() ;
     }
     if (settings.contains("NumOctaveLayers")) {
-        nOctaveLayers = boost::python::extract<int>(settings.get("NumOctaveLayers"));
+        nOctaveLayers = settings["NumOctaveLayers"].cast<int>() ;
     }
     if (settings.contains("Extended")) {
-        extended = boost::python::extract<bool>(settings.get("Extended"));
+        extended = settings["Extended"].cast<bool>() ;
     }
     if (settings.contains("Upright")) {
-        upright = boost::python::extract<bool>(settings.get("Upright"));
+        upright = settings["Upright"].cast<bool>() ;
     }
     
 #ifdef OPENCV2P4
@@ -88,19 +88,19 @@ cv::Ptr<cv::FeatureDetector> createSIFT(const pybind11::dict& settings)
     double sigma = 1.6;
     
     if (settings.contains("NumFeatures")) {
-        numFeatures = boost::python::extract<int>(settings.get("NumFeatures"));
+        numFeatures = settings["NumFeatures"].cast<int>();
     }
     if (settings.contains("NumOctaveLayers")) {
-        nOctaveLayers = boost::python::extract<int>(settings.get("NumOctaveLayers"));
+        nOctaveLayers = settings["NumOctaveLayers"].cast<int>();
     }
     if (settings.contains("ContrastThreshold")) {
-        contrastThreshold = boost::python::extract<double>(settings.get("ContrastThreshold"));
+        contrastThreshold = settings["ContrastThreshold"].cast<double>();
     }
     if (settings.contains("EdgeThreshold")) {
-        edgeThreshold = boost::python::extract<double>(settings.get("EdgeThreshold"));
+        edgeThreshold = settings["EdgeThreshold"].cast<double>();
     }
     if (settings.contains("Sigma")) {
-        sigma = boost::python::extract<double>(settings.get("Sigma"));
+        sigma = settings["Sigma"].cast<double>();
     }
     
 #ifdef OPENCV2P4
@@ -123,31 +123,31 @@ cv::Ptr<cv::FeatureDetector> createMSER(const pybind11::dict& settings)
     int edgeBlurSize = 5;
     
     if (settings.contains("Delta")) {
-        delta = boost::python::extract<int>(settings.get("Delta"));
+        delta = settings["Delta"].cast<int>();
     }
     if (settings.contains("MinArea")) {
-        minArea = boost::python::extract<int>(settings.get("MinArea"));
+        minArea = settings["MinArea"].cast<int>();
     }
     if (settings.contains("MaxArea")) {
-        maxArea = boost::python::extract<int>(settings.get("MaxArea"));
+        maxArea = settings["MaxArea"].cast<int>();
     }
     if (settings.contains("MaxVariation")) {
-        maxVariation = boost::python::extract<double>(settings.get("MaxVariation"));
+        maxVariation = settings["MaxVariation"].cast<double>();
     }
     if (settings.contains("MinDiversity")) {
-        minDiversity = boost::python::extract<double>(settings.get("MinDiversity"));
+        minDiversity = settings["MinDiversity"].cast<double>();
     }
     if (settings.contains("MaxEvolution")) {
-        maxEvolution = boost::python::extract<double>(settings.get("MaxEvolution"));
+        maxEvolution = settings["MaxEvolution"].cast<double>();
     }
     if (settings.contains("AreaThreshold")) {
-        areaThreshold = boost::python::extract<double>(settings.get("AreaThreshold"));
+        areaThreshold = settings["AreaThreshold"].cast<double>();
     }
     if (settings.contains("MinMargin")) {
-        minMargin = boost::python::extract<double>(settings.get("MinMargin"));
+        minMargin = settings["MinMargin"].cast<double>();
     }
     if (settings.contains("EdgeBlurSize")) {
-        edgeBlurSize = boost::python::extract<int>(settings.get("EdgeBlurSize"));
+        edgeBlurSize = settings["EdgeBlurSize"].cast<int>();
     }
     
     return cv::makePtr<cv::MserFeatureDetector>(delta, minArea, maxArea, maxVariation, minDiversity, maxEvolution, areaThreshold, minMargin, edgeBlurSize);
@@ -168,17 +168,17 @@ cv::Ptr<cv::FeatureDetector> pyof2::generateDetector(const pybind11::dict &setti
     pybind11::dict featureOptions;
     if (settings.contains("FeatureOptions"))
     {
-        featureOptions = boost::python::extract<pybind11::dict>(settings.get("FeatureOptions"));
+        featureOptions = settings["FeatureOptions"];
     }
     
     // Read the settings, with default values.
     std::string detectorMode = "STATIC";
     std::string detectorType = "STAR";
     if (featureOptions.contains("DetectorMode")) {
-        detectorMode = boost::python::extract<std::string>(featureOptions.get("DetectorMode"));
+        detectorMode = featureOptions["DetectorMode"].cast<std::string>();
     }
     if (featureOptions.contains("DetectorType")) {
-        detectorType = boost::python::extract<std::string>(featureOptions.get("DetectorType"));
+        detectorType = featureOptions["DetectorType"].cast<std::string>();
     }
     
     // 
@@ -193,7 +193,7 @@ cv::Ptr<cv::FeatureDetector> pyof2::generateDetector(const pybind11::dict &setti
         pybind11::dict adaptiveOptions;
         if (featureOptions.contains("Adaptive"))
         {
-            adaptiveOptions = boost::python::extract<pybind11::dict>(featureOptions.get("Adaptive"));
+            adaptiveOptions = featureOptions["Adaptive"];
         }
         
         // Defaults from the OpenCV documentation
@@ -201,13 +201,13 @@ cv::Ptr<cv::FeatureDetector> pyof2::generateDetector(const pybind11::dict &setti
         int maxFeatures = 500;
         int maxIters = 5;
         if (adaptiveOptions.contains("MinFeatures")) {
-            minFeatures = boost::python::extract<int>(adaptiveOptions.get("MinFeatures"));
+            minFeatures = adaptiveOptions["MinFeatures"].cast<int>();
         }
         if (adaptiveOptions.contains("MaxFeatures")) {
-            maxFeatures = boost::python::extract<int>(adaptiveOptions.get("MaxFeatures"));
+            maxFeatures = adaptiveOptions["MaxFeatures"].cast<int>();
         }
         if (adaptiveOptions.contains("MaxIters")) {
-            maxIters = boost::python::extract<int>(adaptiveOptions.get("MaxIters"));
+            maxIters = adaptiveOptions["MaxIters"].cast<int>();
         }
         return cv::makePtr<cv::DynamicAdaptedFeatureDetector>(cv::AdjusterAdapter::create(detectorType), minFeatures, maxFeatures, maxIters);
 
@@ -216,31 +216,31 @@ cv::Ptr<cv::FeatureDetector> pyof2::generateDetector(const pybind11::dict &setti
         if(detectorType == "FAST") {
             if (featureOptions.contains("FastDetector"))
             {
-                detectorOptions = boost::python::extract<pybind11::dict>(featureOptions.get("FastDetector"));
+                detectorOptions = featureOptions["FastDetector"];
             }
             return createFAST(detectorOptions);
         } else if(detectorType == "SURF") {
             if (featureOptions.contains("SurfDetector"))
             {
-                detectorOptions = boost::python::extract<pybind11::dict>(featureOptions.get("SurfDetector"));
+                detectorOptions = featureOptions["SurfDetector"];
             }
             return createSURF(detectorOptions);
         } else if(detectorType == "SIFT") {
             if (featureOptions.contains("SiftDetector"))
             {
-                detectorOptions = boost::python::extract<pybind11::dict>(featureOptions.get("SiftDetector"));
+                detectorOptions = featureOptions["SiftDetector"];
             }
             return createSIFT(detectorOptions);
         } else if(detectorType == "MSER") {
             if (featureOptions.contains("MSERDetector"))
             {
-                detectorOptions = boost::python::extract<pybind11::dict>(featureOptions.get("MSERDetector"));
+                detectorOptions = featureOptions["MSERDetector"];
             }
             return createMSER(detectorOptions);
         } else {
             if (featureOptions.contains("StarDetector"))
             {
-                detectorOptions = boost::python::extract<pybind11::dict>(featureOptions.get("StarDetector"));
+                detectorOptions = featureOptions["StarDetector"];
             }
             return createSTAR(detectorOptions);
         }
@@ -258,19 +258,19 @@ cv::Ptr<cv::DescriptorExtractor> createSIFTExtractor(const pybind11::dict& setti
     double sigma = 1.6;
     
     if (settings.contains("NumFeatures")) {
-        numFeatures = boost::python::extract<int>(settings.get("NumFeatures"));
+        numFeatures = settings["NumFeatures"].cast<int>();
     }
     if (settings.contains("NumOctaveLayers")) {
-        nOctaveLayers = boost::python::extract<int>(settings.get("NumOctaveLayers"));
+        nOctaveLayers = settings["NumOctaveLayers"].cast<int>();
     }
     if (settings.contains("ContrastThreshold")) {
-        contrastThreshold = boost::python::extract<double>(settings.get("ContrastThreshold"));
+        contrastThreshold = settings["ContrastThreshold"].cast<double>();
     }
     if (settings.contains("EdgeThreshold")) {
-        edgeThreshold = boost::python::extract<double>(settings.get("EdgeThreshold"));
+        edgeThreshold = settings["EdgeThreshold"].cast<double>();
     }
     if (settings.contains("Sigma")) {
-        sigma = boost::python::extract<double>(settings.get("Sigma"));
+        sigma = settings["Sigma"].cast<double>();
     }
     
 #ifdef OPENCV2P4
@@ -289,19 +289,19 @@ cv::Ptr<cv::DescriptorExtractor> createSURFExtractor(const pybind11::dict& setti
     bool upright = false;
     
     if (settings.contains("HessianThreshold")) {
-        hessianThreshold = boost::python::extract<double>(settings.get("HessianThreshold"));
+        hessianThreshold = settings["HessianThreshold"].cast<double>();
     }
     if (settings.contains("NumOctaves")) {
-        nOctaves = boost::python::extract<int>(settings.get("NumOctaves"));
+        nOctaves = settings["NumOctaves"].cast<int>();
     }
     if (settings.contains("NumOctaveLayers")) {
-        nOctaveLayers = boost::python::extract<int>(settings.get("NumOctaveLayers"));
+        nOctaveLayers = settings["NumOctaveLayers"].cast<int>();
     }
     if (settings.contains("Extended")) {
-        extended = boost::python::extract<bool>(settings.get("Extended"));
+        extended = settings["Extended"].cast<bool>();
     }
     if (settings.contains("Upright")) {
-        upright = boost::python::extract<bool>(settings.get("Upright"));
+        upright = settings["Upright"].cast<bool>();
     }
     
 #ifdef OPENCV2P4
@@ -323,25 +323,25 @@ cv::Ptr<cv::DescriptorExtractor> pyof2::generateExtractor(const pybind11::dict &
     pybind11::dict featureOptions;
     if (settings.contains("FeatureOptions"))
     {
-        featureOptions = boost::python::extract<pybind11::dict>(settings.get("FeatureOptions"));
+        featureOptions = settings["FeatureOptions"];
     }
     
     std::string extractorType = "SURF";
     if (featureOptions.contains("ExtractorType")) {
-        extractorType = boost::python::extract<std::string>(featureOptions.get("ExtractorType"));
+        extractorType = featureOptions["ExtractorType"].cast<std::string>();
     }
     
     pybind11::dict detectorOptions;
     if(extractorType == "SIFT") {
         if (featureOptions.contains("SiftDetector"))
         {
-            detectorOptions = boost::python::extract<pybind11::dict>(featureOptions.get("SiftDetector"));
+            detectorOptions = featureOptions["SiftDetector"];
         }
         return createSIFTExtractor(detectorOptions);
     } else {
         if (featureOptions.contains("SurfDetector"))
         {
-            detectorOptions = boost::python::extract<pybind11::dict>(featureOptions.get("SurfDetector"));
+            detectorOptions = featureOptions["SurfDetector"];
         }
         return createSURFExtractor(detectorOptions);
     }
