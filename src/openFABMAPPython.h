@@ -6,7 +6,7 @@
 #include <Python.h>
 #include <fabmap.hpp>
 #include "FabMapVocabluary.h"
-#include "ChowLiuTree.h"
+#include "ChowLiuTreeWrapper.h"
 
 namespace pyof2 {
 
