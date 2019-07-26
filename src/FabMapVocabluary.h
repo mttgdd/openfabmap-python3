@@ -3,10 +3,11 @@
 
 #include <string>
 #include <memory>
-#include <Python.h>
-#include <boost/python.hpp>
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
+
+#include <pybind11/pybind11.h>
 
 namespace pyof2
 {
@@ -21,7 +22,7 @@ public:
     cv::Mat generateBOWImageDescs(const cv::Mat& frame) const;
     
     void save(cv::FileStorage fileStorage) const;
-    static std::shared_ptr<FabMapVocabluary> load(const boost::python::dict& settings, cv::FileStorage fileStorage);
+    static std::shared_ptr<FabMapVocabluary> load(const pybind11::dict& settings, cv::FileStorage fileStorage);
     
 private:
     cv::Ptr<cv::FeatureDetector> detector;
@@ -32,7 +33,7 @@ private:
 class FabMapVocabluaryBuilder
 {
 public:    
-    FabMapVocabluaryBuilder(boost::python::dict settings = boost::python::dict());
+    FabMapVocabluaryBuilder(pybind11::dict settings = pybind11::dict());
     virtual ~FabMapVocabluaryBuilder();
     
     // These function are exposed to python

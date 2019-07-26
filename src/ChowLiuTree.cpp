@@ -5,25 +5,25 @@
 
 // ----------------- ChowLiuTree -----------------
 
-pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, boost::python::dict settings) :
+pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, pybind11::dict settings) :
     ChowLiuTree(vocabluary, cv::Mat(), cv::Mat(), settings)
 {
     
 }
 
-pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, boost::python::dict settings) :
+pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, pybind11::dict settings) :
     vocabluary(vocabluary),
     chowLiuTree(std::move(chowLiuTree)),
     fabmapTrainData(std::move(fabmapTrainData)),
     lowerInformationBound(0.0005),
     treeBuilt(!this->chowLiuTree.empty())
 {
-    if (settings.has_key("ChowLiuOptions"))
+    if (settings.contains("ChowLiuOptions"))
     {
-        boost::python::dict trainSettings = boost::python::extract<boost::python::dict>(settings.get("ChowLiuOptions"));
-        if (trainSettings.has_key("LowerInfoBound"))
+        pybind11::dict trainSettings = settings["ChowLiuOptions"];
+        if (trainSettings.contains("LowerInfoBound"))
         {
-            lowerInformationBound = boost::python::extract<double>(trainSettings.get("LowerInfoBound"));
+            lowerInformationBound = trainSettings["LowerInfoBound"].cast<double>();
         }
     }
 }
@@ -87,7 +87,7 @@ void pyof2::ChowLiuTree::save(std::string filename) const
     fs.release();
 }
 
-std::shared_ptr<pyof2::ChowLiuTree> pyof2::ChowLiuTree::load(boost::python::dict settings, std::string filename)
+std::shared_ptr<pyof2::ChowLiuTree> pyof2::ChowLiuTree::load(pybind11::dict settings, std::string filename)
 {
     cv::FileStorage fs;	
     fs.open(filename, cv::FileStorage::READ);

@@ -58,7 +58,7 @@
 
 // ----------------- OpenFABMAPPython -----------------
 
-pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> chowLiuTree, boost::python::dict settings) :
+pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> chowLiuTree, pybind11::dict settings) :
         vocabluary(chowLiuTree->getVocabluary()),
         fabmap(),
         imageIndex(0),
@@ -70,9 +70,9 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     {
         chowLiuTree->buildChowLiuTree();
     }
-    boost::python::dict openFabMapOptions;
-    if (settings.has_key("openFabMapOptions")) {
-        openFabMapOptions = boost::python::extract<boost::python::dict>(settings.get("openFabMapOptions"));
+    pybind11::dict openFabMapOptions;
+    if (settings.contains("openFabMapOptions")) {
+        openFabMapOptions = boost::python::extract<pybind11::dict>(settings.get("openFabMapOptions"));
     }
     
     //create options flags
@@ -80,13 +80,13 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     std::string bayesMethod = "Naive";
     bool simpleMotionModel = false;
     
-    if (openFabMapOptions.has_key("NewPlaceMethod")) {
+    if (openFabMapOptions.contains("NewPlaceMethod")) {
         newPlaceMethod = boost::python::extract<std::string>(openFabMapOptions.get("NewPlaceMethod"));
     }
-    if (openFabMapOptions.has_key("BayesMethod")) {
+    if (openFabMapOptions.contains("BayesMethod")) {
         bayesMethod = boost::python::extract<std::string>(openFabMapOptions.get("BayesMethod"));
     }
-    if (openFabMapOptions.has_key("SimpleMotion")) {
+    if (openFabMapOptions.contains("SimpleMotion")) {
         simpleMotionModel = boost::python::extract<bool>(openFabMapOptions.get("SimpleMotion"));
     }
     
@@ -107,7 +107,7 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
 
     //create an instance of the desired type of FabMap
     std::string fabMapVersion = "FABMAP2";
-    if (openFabMapOptions.has_key("FabMapVersion")) {
+    if (openFabMapOptions.contains("FabMapVersion")) {
         fabMapVersion = boost::python::extract<std::string>(openFabMapOptions.get("FabMapVersion"));
     }
     
@@ -115,13 +115,13 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     double PzGe = 0.39;
     double PzGne = 0.0;
     int numSamples = 3000;
-    if (openFabMapOptions.has_key("PzGe")) {
+    if (openFabMapOptions.contains("PzGe")) {
         PzGe = boost::python::extract<double>(openFabMapOptions.get("PzGe"));
     }
-    if (openFabMapOptions.has_key("PzGne")) {
+    if (openFabMapOptions.contains("PzGne")) {
         PzGne = boost::python::extract<double>(openFabMapOptions.get("PzGne"));
     }
-    if (openFabMapOptions.has_key("SimpleMotion")) {
+    if (openFabMapOptions.contains("SimpleMotion")) {
         numSamples = boost::python::extract<int>(openFabMapOptions.get("NumSamples"));
     }
     
@@ -130,7 +130,7 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
         fabmap = std::make_shared<of2::FabMap1>(chowLiuTree->getChowLiuTree(), PzGe, PzGne, options, numSamples);
     } else if(fabMapVersion == "FABMAPLUT") {
         int precision = 6;
-        if (openFabMapOptions.has_key("PzGe")) {
+        if (openFabMapOptions.contains("PzGe")) {
             precision = boost::python::extract<int>(openFabMapOptions.get("Precision"));
         }
         
@@ -141,16 +141,16 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
         int bisectionStart = 512;
         int bisectionIts = 9;
         
-        if (openFabMapOptions.has_key("RejectionThreshold")) {
+        if (openFabMapOptions.contains("RejectionThreshold")) {
             rejectionThreshold = boost::python::extract<double>(openFabMapOptions.get("RejectionThreshold"));
         }
-        if (openFabMapOptions.has_key("PsGd")) {
+        if (openFabMapOptions.contains("PsGd")) {
             PsGd = boost::python::extract<double>(openFabMapOptions.get("PsGd"));
         }
-        if (openFabMapOptions.has_key("BisectionStart")) {
+        if (openFabMapOptions.contains("BisectionStart")) {
             bisectionStart = boost::python::extract<int>(openFabMapOptions.get("BisectionStart"));
         }
-        if (openFabMapOptions.has_key("BisectionIts")) {
+        if (openFabMapOptions.contains("BisectionIts")) {
             bisectionIts = boost::python::extract<int>(openFabMapOptions.get("BisectionIts"));
         }
         

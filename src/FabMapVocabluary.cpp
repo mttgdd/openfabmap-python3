@@ -48,7 +48,7 @@ void pyof2::FabMapVocabluary::save(cv::FileStorage fileStorage) const
     fileStorage << "Vocabluary" << vocab;
 }
 
-std::shared_ptr<pyof2::FabMapVocabluary> pyof2::FabMapVocabluary::load(const boost::python::dict& settings, cv::FileStorage fileStorage)
+std::shared_ptr<pyof2::FabMapVocabluary> pyof2::FabMapVocabluary::load(const pybind11::dict& settings, cv::FileStorage fileStorage)
 {
     cv::Mat vocab;
     fileStorage["Vocabluary"] >> vocab;
@@ -61,16 +61,16 @@ std::shared_ptr<pyof2::FabMapVocabluary> pyof2::FabMapVocabluary::load(const boo
 
 // ----------------- FabMapVocabluaryBuilder -----------------
 
-pyof2::FabMapVocabluaryBuilder::FabMapVocabluaryBuilder(boost::python::dict settings) :
+pyof2::FabMapVocabluaryBuilder::FabMapVocabluaryBuilder(pybind11::dict settings) :
         detector(pyof2::generateDetector(settings)),
         extractor(pyof2::generateExtractor(settings)),
         vocabTrainData(),
         clusterRadius(0.45)
 {
-    if (settings.has_key("VocabTrainOptions"))
+    if (settings.contains("VocabTrainOptions"))
     {
-        boost::python::dict trainSettings = boost::python::extract<boost::python::dict>(settings.get("VocabTrainOptions"));
-        if (trainSettings.has_key("ClusterSize"))
+        pybind11::dict trainSettings = boost::python::extract<pybind11::dict>(settings.get("VocabTrainOptions"));
+        if (trainSettings.contains("ClusterSize"))
         {
             clusterRadius = boost::python::extract<double>(trainSettings.get("ClusterSize"));
         }
