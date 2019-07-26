@@ -1,6 +1,6 @@
-#include "ChowLiuTree.h"
-#include "FabMapVocabluary.h"
-#include "openFABMAPPython.h"
+//#include "ChowLiuTree.h"
+//#include "FabMapVocabluary.h"
+//#include "openFABMAPPython.h"
 
 #include <pybind11/chrono.h>
 #include <pybind11/functional.h>
@@ -46,15 +46,19 @@
 //        &pyof2::OpenFABMAPPython::getAllLoopClosures);
 //}
 
-PYBIND11_MODULE(pymoos, m) {
+class TestClass {
+public:
+  TestClass() = default;
+
+public:
+  void Test() { std::cout << "test!" << std::endl; }
+};
+
+PYBIND11_MODULE(openFABMAP, m) {
 
   PyEval_InitThreads();
 
-  pybind11::class_<pyof2::FabMapVocabluaryBuilder,
-                   std::shared_ptr<pyof2::FabMapVocabluaryBuilder>>(
-      m, "VocabluaryBuilder")
-      .def("add_training_image",
-           &pyof2::FabMapVocabluaryBuilder::addTrainingImage)
-      .def("build_vocabluary",
-           &pyof2::FabMapVocabluaryBuilder::buildVocabluary);
+  pybind11::class_<TestClass>(m, "TestClass")
+      .def(pybind11::init<>())
+      .def("Test", &TestClass::Test);
 }
