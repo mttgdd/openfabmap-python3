@@ -69,10 +69,10 @@ pyof2::FabMapVocabluaryBuilder::FabMapVocabluaryBuilder(pybind11::dict settings)
 {
     if (settings.contains("VocabTrainOptions"))
     {
-        pybind11::dict trainSettings = boost::python::extract<pybind11::dict>(settings.get("VocabTrainOptions"));
+        pybind11::dict trainSettings = settings["VocabTrainOptions"];
         if (trainSettings.contains("ClusterSize"))
         {
-            clusterRadius = boost::python::extract<double>(trainSettings.get("ClusterSize"));
+            clusterRadius = trainSettings["ClusterSize"].cast<double>();
         }
     }
 }

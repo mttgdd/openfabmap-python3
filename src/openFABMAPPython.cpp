@@ -72,7 +72,7 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     }
     pybind11::dict openFabMapOptions;
     if (settings.contains("openFabMapOptions")) {
-        openFabMapOptions = boost::python::extract<pybind11::dict>(settings.get("openFabMapOptions"));
+        openFabMapOptions = settings["openFabMapOptions"];
     }
     
     //create options flags
@@ -81,13 +81,13 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     bool simpleMotionModel = false;
     
     if (openFabMapOptions.contains("NewPlaceMethod")) {
-        newPlaceMethod = boost::python::extract<std::string>(openFabMapOptions.get("NewPlaceMethod"));
+        newPlaceMethod = openFabMapOptions["NewPlaceMethod"].cast<std::string>();
     }
     if (openFabMapOptions.contains("BayesMethod")) {
-        bayesMethod = boost::python::extract<std::string>(openFabMapOptions.get("BayesMethod"));
+        bayesMethod = openFabMapOptions["BayesMethod"].cast<std::string>();
     }
     if (openFabMapOptions.contains("SimpleMotion")) {
-        simpleMotionModel = boost::python::extract<bool>(openFabMapOptions.get("SimpleMotion"));
+        simpleMotionModel = openFabMapOptions["SimpleMotion"].cast<bool>();
     }
     
     int options = 0;
@@ -108,7 +108,7 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     //create an instance of the desired type of FabMap
     std::string fabMapVersion = "FABMAP2";
     if (openFabMapOptions.contains("FabMapVersion")) {
-        fabMapVersion = boost::python::extract<std::string>(openFabMapOptions.get("FabMapVersion"));
+        fabMapVersion = openFabMapOptions["FabMapVersion"].cast<std::string>();
     }
     
     // Read common settings
@@ -116,13 +116,13 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     double PzGne = 0.0;
     int numSamples = 3000;
     if (openFabMapOptions.contains("PzGe")) {
-        PzGe = boost::python::extract<double>(openFabMapOptions.get("PzGe"));
+        PzGe = openFabMapOptions["PzGe"].cast<double>();
     }
     if (openFabMapOptions.contains("PzGne")) {
-        PzGne = boost::python::extract<double>(openFabMapOptions.get("PzGne"));
+        PzGne = openFabMapOptions["PzGne"].cast<double>();
     }
     if (openFabMapOptions.contains("SimpleMotion")) {
-        numSamples = boost::python::extract<int>(openFabMapOptions.get("NumSamples"));
+        numSamples = openFabMapOptions["SimpleMotion"].cast<int>();
     }
     
     // Create the appropriate FABMAP object
@@ -131,7 +131,7 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     } else if(fabMapVersion == "FABMAPLUT") {
         int precision = 6;
         if (openFabMapOptions.contains("PzGe")) {
-            precision = boost::python::extract<int>(openFabMapOptions.get("Precision"));
+            precision = openFabMapOptions["PzGe"].cast<int>();
         }
         
         fabmap = std::make_shared<of2::FabMapLUT>(chowLiuTree->getChowLiuTree(), PzGe, PzGne, options, numSamples, precision);
@@ -142,16 +142,16 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
         int bisectionIts = 9;
         
         if (openFabMapOptions.contains("RejectionThreshold")) {
-            rejectionThreshold = boost::python::extract<double>(openFabMapOptions.get("RejectionThreshold"));
+            rejectionThreshold = openFabMapOptions["RejectionThreshold"].cast<double>();
         }
         if (openFabMapOptions.contains("PsGd")) {
-            PsGd = boost::python::extract<double>(openFabMapOptions.get("PsGd"));
+            PsGd = openFabMapOptions["PsGd"].cast<double>();
         }
         if (openFabMapOptions.contains("BisectionStart")) {
-            bisectionStart = boost::python::extract<int>(openFabMapOptions.get("BisectionStart"));
+            bisectionStart = openFabMapOptions["BisectionStart"].cast<int>();
         }
         if (openFabMapOptions.contains("BisectionIts")) {
-            bisectionIts = boost::python::extract<int>(openFabMapOptions.get("BisectionIts"));
+            bisectionIts = openFabMapOptions["BisectionIts"].cast<int>();
         }
         
         fabmap = std::make_shared<of2::FabMapFBO>(chowLiuTree->getChowLiuTree(), PzGe, PzGne, options, numSamples, rejectionThreshold, PsGd, bisectionStart, bisectionIts);
