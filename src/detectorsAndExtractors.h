@@ -3,8 +3,7 @@
 
 #include <memory>
 #include <Python.h>
-#include <boost/python.hpp>
-//#include <opencv2/core/core.hpp>
+#include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
 
 #include <pybind11/pybind11.h>

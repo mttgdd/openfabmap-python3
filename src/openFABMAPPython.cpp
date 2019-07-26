@@ -190,7 +190,7 @@ bool pyof2::OpenFABMAPPython::loadAndProcessImage(std::string imageFile)
                 }
             }
             lastMatch = bestMatchIndex;
-            loopClosures.append(boost::python::make_tuple(imageIndex, bestMatchIndex));
+            loopClosures.append(pybind11::make_tuple(imageIndex, bestMatchIndex));
             ++imageIndex;
             return true;
         }
@@ -209,7 +209,7 @@ int pyof2::OpenFABMAPPython::getLastMatch() const
     return lastMatch;
 }
 
-boost::python::list pyof2::OpenFABMAPPython::getAllLoopClosures() const
+pybind11::list pyof2::OpenFABMAPPython::getAllLoopClosures() const
 {
     return loopClosures;
 }

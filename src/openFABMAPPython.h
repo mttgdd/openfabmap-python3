@@ -4,7 +4,6 @@
 #include <memory>
 #include <vector>
 #include <Python.h>
-#include <boost/python.hpp>
 #include <fabmap.hpp>
 #include "FabMapVocabluary.h"
 #include "ChowLiuTree.h"
@@ -19,7 +18,7 @@ public:
     
     bool loadAndProcessImage(std::string imageFile);
     int getLastMatch() const;
-    boost::python::list getAllLoopClosures() const;
+    pybind11::list getAllLoopClosures() const;
     
 private:
     std::shared_ptr<FabMapVocabluary> vocabluary;
@@ -27,7 +26,7 @@ private:
     
     int imageIndex;
     int lastMatch;
-    boost::python::list loopClosures;
+    pybind11::list loopClosures;
 };
 
 } // namespace pyof2
