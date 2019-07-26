@@ -27,14 +27,18 @@ add_subdirectory(pybind11)
 
 pybind11_add_module(
         openFABMAP
-#        src/detectorsAndExtractors.cpp
-#        src/FabMapVocabluary.cpp
-#        src/ChowLiuTree.cpp
-#        src/openFABMAPPython.cpp
+        src/detectorsAndExtractors.cpp
+        src/FabMapVocabluary.cpp
+        src/ChowLiuTree.cpp
+        src/openFABMAPPython.cpp
         src/PythonBindings.cpp)
 
 include_directories(
         src
         ${OPEN_FABMAP_INCLUDE_DIR})
 
-target_link_libraries(openFABMAP PRIVATE ${OPEN_FABMAP_LIB})
+target_link_libraries(
+        openFABMAP
+        PRIVATE
+        ${OPEN_FABMAP_LIB}
+        ${OpenCV_LIBS})

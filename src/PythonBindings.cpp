@@ -1,6 +1,6 @@
-//#include "ChowLiuTree.h"
-//#include "FabMapVocabluary.h"
-//#include "openFABMAPPython.h"
+#include "ChowLiuTree.h"
+#include "FabMapVocabluary.h"
+#include "openFABMAPPython.h"
 
 #include <pybind11/chrono.h>
 #include <pybind11/functional.h>
