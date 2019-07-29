@@ -17,6 +17,12 @@ public:
     virtual ~OpenFABMAPPython();
     
     bool loadAndProcessImage(std::string imageFile);
+    bool ProcessImage(const pybind11::array_t<uchar> &frame);
+
+ private:
+  bool ProcessImageInternal(const cv::Mat &frame);
+
+ public:
     int getLastMatch() const;
     pybind11::list getAllLoopClosures() const;
     

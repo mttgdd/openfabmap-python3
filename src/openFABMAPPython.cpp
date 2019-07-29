@@ -55,6 +55,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include "openFABMAPPython.h"
+#include <conversion.h>
 
 // ----------------- OpenFABMAPPython -----------------
 
@@ -171,14 +172,25 @@ pyof2::OpenFABMAPPython::~OpenFABMAPPython()
 bool pyof2::OpenFABMAPPython::loadAndProcessImage(std::string imageFile)
 {
     cv::Mat frame = cv::imread(imageFile, CV_LOAD_IMAGE_UNCHANGED);
+    return ProcessImageInternal(frame);
+}
+
+bool pyof2::OpenFABMAPPython::ProcessImage(const pybind11::array_t<uchar> &frame) {
+    NDArrayConverter cvt;
+    cv::Mat mat { cvt.toMat(frame.ptr()) };
+    return ProcessImageInternal(mat);
+}
+
+bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame)
+{
     if (frame.data)
     {
         cv::Mat bow = vocabluary->generateBOWImageDescs(frame);
         if (!bow.empty())
-        {    
+        {
             std::vector<of2::IMatch> matches;
             fabmap->localize(bow, matches, true);
-            
+
             double bestLikelihood = 0.0;
             int bestMatchIndex = -1;
             for (std::vector<of2::IMatch>::iterator iter = matches.begin(); iter != matches.end(); ++iter)
@@ -195,14 +207,13 @@ bool pyof2::OpenFABMAPPython::loadAndProcessImage(std::string imageFile)
             return true;
         }
         else {
-            std::cerr << "Could not get bag of words for image " << imageFile << std::endl;
+            return false;
         }
+        return true;
     }
-        else {
-            std::cerr << "Could not open image " << imageFile << std::endl;
-        }
     return false;
 }
+
 
 int pyof2::OpenFABMAPPython::getLastMatch() const
 {

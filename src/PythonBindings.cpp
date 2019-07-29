@@ -42,6 +42,8 @@ PYBIND11_MODULE(openFABMAP, m) {
           pybind11::init<std::shared_ptr<pyof2::ChowLiuTree>, pybind11::dict>())
       .def("load_and_process_image",
            &pyof2::OpenFABMAPPython::loadAndProcessImage)
+      .def("process_image",
+           &pyof2::OpenFABMAPPython::ProcessImage)
       .def("get_last_match", &pyof2::OpenFABMAPPython::getLastMatch)
       .def("get_all_loop_closures",
            &pyof2::OpenFABMAPPython::getAllLoopClosures);
