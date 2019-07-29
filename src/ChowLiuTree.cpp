@@ -2,6 +2,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <chowliutree.hpp>
 #include "ChowLiuTree.h"
+#include <conversion.h>
 
 // ----------------- ChowLiuTree -----------------
 
@@ -33,9 +34,21 @@ pyof2::ChowLiuTree::~ChowLiuTree()
     
 }
 
-bool pyof2::ChowLiuTree::addTrainingImage(std::string imagePath)
+bool pyof2::ChowLiuTree::loadAndAddTrainingImage(std::string imagePath)
 {
     cv::Mat frame = cv::imread(imagePath, CV_LOAD_IMAGE_UNCHANGED);
+    return addTrainingImageInternal(frame);
+}
+
+bool pyof2::ChowLiuTree::addTrainingImage(const pybind11::array_t<uchar> &frame)
+{
+    NDArrayConverter cvt;
+    cv::Mat mat { cvt.toMat(frame.ptr()) };
+    return addTrainingImageInternal(mat);
+}
+
+bool pyof2::ChowLiuTree::addTrainingImageInternal(const cv::Mat &frame)
+{
     if (frame.data)
     {
         cv::Mat bow = vocabluary->generateBOWImageDescs(frame);

@@ -17,10 +17,15 @@ public:
     virtual ~ChowLiuTree();
     
     // These function are exposed to python
-    bool addTrainingImage(std::string imagePath);
+    bool loadAndAddTrainingImage(std::string imagePath);
+    bool addTrainingImage(const pybind11::array_t<uchar> &frame);
     void buildChowLiuTree();
-    
-    void save(std::string filename) const;
+
+ private:
+  bool addTrainingImageInternal(const cv::Mat &frame);
+
+ public:
+  void save(std::string filename) const;
     static std::shared_ptr<ChowLiuTree> load(pybind11::dict settings, std::string filename);
     
     bool isTreeBuilt() const;

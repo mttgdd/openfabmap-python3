@@ -31,6 +31,7 @@ PYBIND11_MODULE(openFABMAP, m) {
       .def(pybind11::init<std::shared_ptr<pyof2::FabMapVocabluary>,
                           pybind11::dict>())
       .def("add_training_image", &pyof2::ChowLiuTree::addTrainingImage)
+      .def("load_and_add_training_image", &pyof2::ChowLiuTree::loadAndAddTrainingImage)
       .def("build_chow_liu_tree", &pyof2::ChowLiuTree::buildChowLiuTree)
       .def("save", &pyof2::ChowLiuTree::save)
       .def("load", &pyof2::ChowLiuTree::load);
