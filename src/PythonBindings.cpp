@@ -1,4 +1,4 @@
-#include "ChowLiuTreeWrapper.h"
+#include "ChowLiuTree.h"
 #include "FabMapVocabluary.h"
 #include "openFABMAPPython.h"
 

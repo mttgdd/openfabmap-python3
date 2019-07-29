@@ -29,7 +29,7 @@ pybind11_add_module(
         openFABMAP
         src/detectorsAndExtractors.cpp
         src/FabMapVocabluary.cpp
-        src/ChowLiuTreeWrapper.cpp
+        src/ChowLiuTree.cpp
         src/openFABMAPPython.cpp
         src/PythonBindings.cpp)
 
