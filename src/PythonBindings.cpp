@@ -21,6 +21,8 @@ PYBIND11_MODULE(openFABMAP, m) {
       .def(pybind11::init<pybind11::dict>())
       .def("add_training_image",
            &pyof2::FabMapVocabluaryBuilder::addTrainingImage)
+      .def("load_and_add_training_image",
+           &pyof2::FabMapVocabluaryBuilder::loadAndAddTrainingImage)
       .def("build_vocabluary",
            &pyof2::FabMapVocabluaryBuilder::buildVocabluary);
 
@@ -29,6 +31,7 @@ PYBIND11_MODULE(openFABMAP, m) {
       .def(pybind11::init<std::shared_ptr<pyof2::FabMapVocabluary>,
                           pybind11::dict>())
       .def("add_training_image", &pyof2::ChowLiuTree::addTrainingImage)
+      .def("load_and_add_training_image", &pyof2::ChowLiuTree::loadAndAddTrainingImage)
       .def("build_chow_liu_tree", &pyof2::ChowLiuTree::buildChowLiuTree)
       .def("save", &pyof2::ChowLiuTree::save)
       .def("load", &pyof2::ChowLiuTree::load);
@@ -39,6 +42,8 @@ PYBIND11_MODULE(openFABMAP, m) {
           pybind11::init<std::shared_ptr<pyof2::ChowLiuTree>, pybind11::dict>())
       .def("load_and_process_image",
            &pyof2::OpenFABMAPPython::loadAndProcessImage)
+      .def("process_image",
+           &pyof2::OpenFABMAPPython::ProcessImage)
       .def("get_last_match", &pyof2::OpenFABMAPPython::getLastMatch)
       .def("get_all_loop_closures",
            &pyof2::OpenFABMAPPython::getAllLoopClosures);
