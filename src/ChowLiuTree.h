@@ -9,19 +9,19 @@
 namespace pyof2
 {
 
-class ChowLiuTreeWrapper
+class ChowLiuTree
 {
 public:
-    ChowLiuTreeWrapper(std::shared_ptr<FabMapVocabluary> vocabluary, pybind11::dict settings);
-    ChowLiuTreeWrapper(std::shared_ptr<FabMapVocabluary> vocabluary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, pybind11::dict settings);
-    virtual ~ChowLiuTreeWrapper();
+    ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, pybind11::dict settings);
+    ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, pybind11::dict settings);
+    virtual ~ChowLiuTree();
     
     // These function are exposed to python
     bool addTrainingImage(std::string imagePath);
     void buildChowLiuTree();
     
     void save(std::string filename) const;
-    static std::shared_ptr<ChowLiuTreeWrapper> load(pybind11::dict settings, std::string filename);
+    static std::shared_ptr<ChowLiuTree> load(pybind11::dict settings, std::string filename);
     
     bool isTreeBuilt() const;
     std::shared_ptr<FabMapVocabluary> getVocabluary() const;

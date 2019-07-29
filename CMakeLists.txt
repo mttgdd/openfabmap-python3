@@ -38,7 +38,7 @@ pybind11_add_module(
         opencv-ndarray-conversion/conversion.cpp
         src/detectorsAndExtractors.cpp
         src/FabMapVocabluary.cpp
-        src/ChowLiuTreeWrapper.cpp
+        src/ChowLiuTree.cpp
         src/openFABMAPPython.cpp
         src/PythonBindings.cpp)
 
