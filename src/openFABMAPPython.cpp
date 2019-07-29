@@ -58,7 +58,7 @@
 
 // ----------------- OpenFABMAPPython -----------------
 
-pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTreeWrapper> chowLiuTree, pybind11::dict settings) :
+pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> chowLiuTree, pybind11::dict settings) :
         vocabluary(chowLiuTree->getVocabluary()),
         fabmap(),
         imageIndex(0),

@@ -24,19 +24,19 @@ PYBIND11_MODULE(openFABMAP, m) {
       .def("build_vocabluary",
            &pyof2::FabMapVocabluaryBuilder::buildVocabluary);
 
-  pybind11::class_<pyof2::ChowLiuTreeWrapper, std::shared_ptr<pyof2::ChowLiuTreeWrapper>>(
+  pybind11::class_<pyof2::ChowLiuTree, std::shared_ptr<pyof2::ChowLiuTree>>(
       m, "ChowLiuTree")
       .def(pybind11::init<std::shared_ptr<pyof2::FabMapVocabluary>,
                           pybind11::dict>())
-      .def("add_training_image", &pyof2::ChowLiuTreeWrapper::addTrainingImage)
-      .def("build_chow_liu_tree", &pyof2::ChowLiuTreeWrapper::buildChowLiuTree)
-      .def("save", &pyof2::ChowLiuTreeWrapper::save)
-      .def("load", &pyof2::ChowLiuTreeWrapper::load);
+      .def("add_training_image", &pyof2::ChowLiuTree::addTrainingImage)
+      .def("build_chow_liu_tree", &pyof2::ChowLiuTree::buildChowLiuTree)
+      .def("save", &pyof2::ChowLiuTree::save)
+      .def("load", &pyof2::ChowLiuTree::load);
 
   pybind11::class_<pyof2::OpenFABMAPPython,
                    std::shared_ptr<pyof2::OpenFABMAPPython>>(m, "OpenFABMAP")
       .def(
-          pybind11::init<std::shared_ptr<pyof2::ChowLiuTreeWrapper>, pybind11::dict>())
+          pybind11::init<std::shared_ptr<pyof2::ChowLiuTree>, pybind11::dict>())
       .def("load_and_process_image",
            &pyof2::OpenFABMAPPython::loadAndProcessImage)
       .def("get_last_match", &pyof2::OpenFABMAPPython::getLastMatch)

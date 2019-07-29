@@ -13,7 +13,7 @@ namespace pyof2 {
 class OpenFABMAPPython
 {
 public:
-    OpenFABMAPPython(std::shared_ptr<ChowLiuTreeWrapper> chowLiuTree, pybind11::dict settings = pybind11::dict());
+    OpenFABMAPPython(std::shared_ptr<ChowLiuTree> chowLiuTree, pybind11::dict settings = pybind11::dict());
     virtual ~OpenFABMAPPython();
     
     bool loadAndProcessImage(std::string imageFile);

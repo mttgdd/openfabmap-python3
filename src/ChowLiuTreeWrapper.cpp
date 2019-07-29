@@ -5,13 +5,13 @@
 
 // ----------------- ChowLiuTree -----------------
 
-pyof2::ChowLiuTreeWrapper::ChowLiuTreeWrapper(std::shared_ptr<FabMapVocabluary> vocabluary, pybind11::dict settings) :
-    ChowLiuTreeWrapper(vocabluary, cv::Mat(), cv::Mat(), settings)
+pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, pybind11::dict settings) :
+    ChowLiuTree(vocabluary, cv::Mat(), cv::Mat(), settings)
 {
     
 }
 
-pyof2::ChowLiuTreeWrapper::ChowLiuTreeWrapper(std::shared_ptr<FabMapVocabluary> vocabluary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, pybind11::dict settings) :
+pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, pybind11::dict settings) :
     vocabluary(vocabluary),
     chowLiuTree(std::move(chowLiuTree)),
     fabmapTrainData(std::move(fabmapTrainData)),
@@ -28,12 +28,12 @@ pyof2::ChowLiuTreeWrapper::ChowLiuTreeWrapper(std::shared_ptr<FabMapVocabluary> 
     }
 }
 
-pyof2::ChowLiuTreeWrapper::~ChowLiuTreeWrapper()
+pyof2::ChowLiuTree::~ChowLiuTree()
 {
     
 }
 
-bool pyof2::ChowLiuTreeWrapper::addTrainingImage(std::string imagePath)
+bool pyof2::ChowLiuTree::addTrainingImage(std::string imagePath)
 {
     cv::Mat frame = cv::imread(imagePath, CV_LOAD_IMAGE_UNCHANGED);
     if (frame.data)
@@ -46,7 +46,7 @@ bool pyof2::ChowLiuTreeWrapper::addTrainingImage(std::string imagePath)
     return false;
 }
 
-void pyof2::ChowLiuTreeWrapper::buildChowLiuTree()
+void pyof2::ChowLiuTree::buildChowLiuTree()
 {
     of2::ChowLiuTree tree;
     tree.add(fabmapTrainData);
@@ -54,27 +54,27 @@ void pyof2::ChowLiuTreeWrapper::buildChowLiuTree()
     treeBuilt = true;
 }
 
-bool pyof2::ChowLiuTreeWrapper::isTreeBuilt() const
+bool pyof2::ChowLiuTree::isTreeBuilt() const
 {
     return treeBuilt;
 }
 
-std::shared_ptr<pyof2::FabMapVocabluary> pyof2::ChowLiuTreeWrapper::getVocabluary() const
+std::shared_ptr<pyof2::FabMapVocabluary> pyof2::ChowLiuTree::getVocabluary() const
 {
     return vocabluary;
 }
     
-cv::Mat pyof2::ChowLiuTreeWrapper::getChowLiuTree() const
+cv::Mat pyof2::ChowLiuTree::getChowLiuTree() const
 {
     return chowLiuTree;
 }
 
-cv::Mat pyof2::ChowLiuTreeWrapper::getTrainingData() const
+cv::Mat pyof2::ChowLiuTree::getTrainingData() const
 {
     return fabmapTrainData;
 }
     
-void pyof2::ChowLiuTreeWrapper::save(std::string filename) const
+void pyof2::ChowLiuTree::save(std::string filename) const
 {
     cv::FileStorage fs;	
     fs.open(filename, cv::FileStorage::WRITE);
@@ -87,7 +87,7 @@ void pyof2::ChowLiuTreeWrapper::save(std::string filename) const
     fs.release();
 }
 
-std::shared_ptr<pyof2::ChowLiuTreeWrapper> pyof2::ChowLiuTreeWrapper::load(pybind11::dict settings, std::string filename)
+std::shared_ptr<pyof2::ChowLiuTree> pyof2::ChowLiuTree::load(pybind11::dict settings, std::string filename)
 {
     cv::FileStorage fs;	
     fs.open(filename, cv::FileStorage::READ);
@@ -102,5 +102,5 @@ std::shared_ptr<pyof2::ChowLiuTreeWrapper> pyof2::ChowLiuTreeWrapper::load(pybin
     
     fs.release();
     
-    return std::make_shared<pyof2::ChowLiuTreeWrapper>(vocab, chowLiuTree, fabmapTrainData, settings);
+    return std::make_shared<pyof2::ChowLiuTree>(vocab, chowLiuTree, fabmapTrainData, settings);
 }
