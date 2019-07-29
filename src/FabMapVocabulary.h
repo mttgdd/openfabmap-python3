@@ -7,8 +7,8 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
 
-#include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
+#include <pybind11/pybind11.h>
 
 namespace pyof2 {
 
@@ -42,10 +42,10 @@ public:
   bool addTrainingImage(const pybind11::array_t<uchar> &frame);
   std::shared_ptr<FabMapVocabulary> buildVocabulary();
 
- private:
+private:
   bool addTrainingImageInternal(const cv::Mat &frame);
 
- private:
+private:
   cv::Ptr<cv::FeatureDetector> detector;
   cv::Ptr<cv::DescriptorExtractor> extractor;
 
