@@ -6,6 +6,8 @@
 #include <bowmsctrainer.hpp>
 #include "FabMapVocabluary.h"
 #include "detectorsAndExtractors.h"
+
+#include <conversion.h>
 #include <iostream>
 
 // ----------------- FabMapVocabluary -----------------
@@ -91,9 +93,9 @@ bool pyof2::FabMapVocabluaryBuilder::loadAndAddTrainingImage(std::string imagePa
 
 bool pyof2::FabMapVocabluaryBuilder::addTrainingImage(const pybind11::array_t<uchar> &frame)
 {
-    cv::Mat mat;
-    std::cout << frame.size() << std::endl;
-    return addTrainingImageInternal(mat);
+  NDArrayConverter cvt;
+  cv::Mat mat { cvt.toMat(frame.ptr()) };
+  return addTrainingImageInternal(mat);
 }
 
 bool pyof2::FabMapVocabluaryBuilder::addTrainingImageInternal(const cv::Mat &frame)
