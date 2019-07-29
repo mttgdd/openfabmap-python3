@@ -34,7 +34,7 @@ PYBIND11_MODULE(openFABMAP, m) {
       .def("load", &pyof2::ChowLiuTreeWrapper::load);
 
   pybind11::class_<pyof2::OpenFABMAPPython,
-                   std::shared_ptr<pyof2::OpenFABMAPPython>>(m, "OpenFABMAPPython")
+                   std::shared_ptr<pyof2::OpenFABMAPPython>>(m, "OpenFABMAP")
       .def(
           pybind11::init<std::shared_ptr<pyof2::ChowLiuTreeWrapper>, pybind11::dict>())
       .def("load_and_process_image",
