@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
-project(OPENFABMAP_PYTHON_BINDING)
+project(py-openFABMAP)
 
 #Set the openFABMAP directory path
 #TODO: Convert this to a proper FindOpenFABMAP.cmake
