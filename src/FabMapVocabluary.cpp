@@ -6,6 +6,7 @@
 #include <bowmsctrainer.hpp>
 #include "FabMapVocabluary.h"
 #include "detectorsAndExtractors.h"
+#include <iostream>
 
 // ----------------- FabMapVocabluary -----------------
 
@@ -82,19 +83,31 @@ pyof2::FabMapVocabluaryBuilder::~FabMapVocabluaryBuilder()
     
 }
 
-bool pyof2::FabMapVocabluaryBuilder::addTrainingImage(std::string imagePath)
+bool pyof2::FabMapVocabluaryBuilder::loadAndAddTrainingImage(std::string imagePath)
+{
+    cv::Mat frame = cv::imread(imagePath, CV_LOAD_IMAGE_UNCHANGED);
+    return addTrainingImageInternal(frame);
+}
+
+bool pyof2::FabMapVocabluaryBuilder::addTrainingImage(const pybind11::array_t<uchar> &frame)
+{
+    cv::Mat mat;
+    std::cout << frame.size() << std::endl;
+    return addTrainingImageInternal(mat);
+}
+
+bool pyof2::FabMapVocabluaryBuilder::addTrainingImageInternal(const cv::Mat &frame)
 {
     cv::Mat descs, feats;
     std::vector<cv::KeyPoint> kpts;
-    
-    cv::Mat frame = cv::imread(imagePath, CV_LOAD_IMAGE_UNCHANGED);
+
     if (frame.data)
     {
         //detect & extract features
         detector->detect(frame, kpts);
         extractor->compute(frame, kpts, descs);
 
-        //add all descriptors to the training data 
+        //add all descriptors to the training data
         vocabTrainData.push_back(descs);
         return true;
     }

@@ -21,6 +21,8 @@ PYBIND11_MODULE(openFABMAP, m) {
       .def(pybind11::init<pybind11::dict>())
       .def("add_training_image",
            &pyof2::FabMapVocabluaryBuilder::addTrainingImage)
+      .def("load_and_add_training_image",
+           &pyof2::FabMapVocabluaryBuilder::loadAndAddTrainingImage)
       .def("build_vocabluary",
            &pyof2::FabMapVocabluaryBuilder::buildVocabluary);
 
