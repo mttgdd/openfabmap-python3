@@ -55,10 +55,11 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include "openFABMAPPython.h"
+#include <conversion.h>
 
 // ----------------- OpenFABMAPPython -----------------
 
-pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> chowLiuTree, boost::python::dict settings) :
+pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> chowLiuTree, pybind11::dict settings) :
         vocabluary(chowLiuTree->getVocabluary()),
         fabmap(),
         imageIndex(0),
@@ -70,9 +71,9 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     {
         chowLiuTree->buildChowLiuTree();
     }
-    boost::python::dict openFabMapOptions;
-    if (settings.has_key("openFabMapOptions")) {
-        openFabMapOptions = boost::python::extract<boost::python::dict>(settings.get("openFabMapOptions"));
+    pybind11::dict openFabMapOptions;
+    if (settings.contains("openFabMapOptions")) {
+        openFabMapOptions = settings["openFabMapOptions"];
     }
     
     //create options flags
@@ -80,14 +81,14 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
     std::string bayesMethod = "Naive";
     bool simpleMotionModel = false;
     
-    if (openFabMapOptions.has_key("NewPlaceMethod")) {
-        newPlaceMethod = boost::python::extract<std::string>(openFabMapOptions.get("NewPlaceMethod"));
+    if (openFabMapOptions.contains("NewPlaceMethod")) {
+        newPlaceMethod = openFabMapOptions["NewPlaceMethod"].cast<std::string>();
     }
-    if (openFabMapOptions.has_key("BayesMethod")) {
-        bayesMethod = boost::python::extract<std::string>(openFabMapOptions.get("BayesMethod"));
+    if (openFabMapOptions.contains("BayesMethod")) {
+        bayesMethod = openFabMapOptions["BayesMethod"].cast<std::string>();
     }
-    if (openFabMapOptions.has_key("SimpleMotion")) {
-        simpleMotionModel = boost::python::extract<bool>(openFabMapOptions.get("SimpleMotion"));
+    if (openFabMapOptions.contains("SimpleMotion")) {
+        simpleMotionModel = openFabMapOptions["SimpleMotion"].cast<bool>();
     }
     
     int options = 0;
@@ -107,22 +108,22 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
 
     //create an instance of the desired type of FabMap
     std::string fabMapVersion = "FABMAP2";
-    if (openFabMapOptions.has_key("FabMapVersion")) {
-        fabMapVersion = boost::python::extract<std::string>(openFabMapOptions.get("FabMapVersion"));
+    if (openFabMapOptions.contains("FabMapVersion")) {
+        fabMapVersion = openFabMapOptions["FabMapVersion"].cast<std::string>();
     }
     
     // Read common settings
     double PzGe = 0.39;
     double PzGne = 0.0;
     int numSamples = 3000;
-    if (openFabMapOptions.has_key("PzGe")) {
-        PzGe = boost::python::extract<double>(openFabMapOptions.get("PzGe"));
+    if (openFabMapOptions.contains("PzGe")) {
+        PzGe = openFabMapOptions["PzGe"].cast<double>();
     }
-    if (openFabMapOptions.has_key("PzGne")) {
-        PzGne = boost::python::extract<double>(openFabMapOptions.get("PzGne"));
+    if (openFabMapOptions.contains("PzGne")) {
+        PzGne = openFabMapOptions["PzGne"].cast<double>();
     }
-    if (openFabMapOptions.has_key("SimpleMotion")) {
-        numSamples = boost::python::extract<int>(openFabMapOptions.get("NumSamples"));
+    if (openFabMapOptions.contains("SimpleMotion")) {
+        numSamples = openFabMapOptions["SimpleMotion"].cast<int>();
     }
     
     // Create the appropriate FABMAP object
@@ -130,8 +131,8 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
         fabmap = std::make_shared<of2::FabMap1>(chowLiuTree->getChowLiuTree(), PzGe, PzGne, options, numSamples);
     } else if(fabMapVersion == "FABMAPLUT") {
         int precision = 6;
-        if (openFabMapOptions.has_key("PzGe")) {
-            precision = boost::python::extract<int>(openFabMapOptions.get("Precision"));
+        if (openFabMapOptions.contains("PzGe")) {
+            precision = openFabMapOptions["PzGe"].cast<int>();
         }
         
         fabmap = std::make_shared<of2::FabMapLUT>(chowLiuTree->getChowLiuTree(), PzGe, PzGne, options, numSamples, precision);
@@ -141,17 +142,17 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> ch
         int bisectionStart = 512;
         int bisectionIts = 9;
         
-        if (openFabMapOptions.has_key("RejectionThreshold")) {
-            rejectionThreshold = boost::python::extract<double>(openFabMapOptions.get("RejectionThreshold"));
+        if (openFabMapOptions.contains("RejectionThreshold")) {
+            rejectionThreshold = openFabMapOptions["RejectionThreshold"].cast<double>();
         }
-        if (openFabMapOptions.has_key("PsGd")) {
-            PsGd = boost::python::extract<double>(openFabMapOptions.get("PsGd"));
+        if (openFabMapOptions.contains("PsGd")) {
+            PsGd = openFabMapOptions["PsGd"].cast<double>();
         }
-        if (openFabMapOptions.has_key("BisectionStart")) {
-            bisectionStart = boost::python::extract<int>(openFabMapOptions.get("BisectionStart"));
+        if (openFabMapOptions.contains("BisectionStart")) {
+            bisectionStart = openFabMapOptions["BisectionStart"].cast<int>();
         }
-        if (openFabMapOptions.has_key("BisectionIts")) {
-            bisectionIts = boost::python::extract<int>(openFabMapOptions.get("BisectionIts"));
+        if (openFabMapOptions.contains("BisectionIts")) {
+            bisectionIts = openFabMapOptions["BisectionIts"].cast<int>();
         }
         
         fabmap = std::make_shared<of2::FabMapFBO>(chowLiuTree->getChowLiuTree(), PzGe, PzGne, options, numSamples, rejectionThreshold, PsGd, bisectionStart, bisectionIts);
@@ -171,14 +172,25 @@ pyof2::OpenFABMAPPython::~OpenFABMAPPython()
 bool pyof2::OpenFABMAPPython::loadAndProcessImage(std::string imageFile)
 {
     cv::Mat frame = cv::imread(imageFile, CV_LOAD_IMAGE_UNCHANGED);
+    return ProcessImageInternal(frame);
+}
+
+bool pyof2::OpenFABMAPPython::ProcessImage(const pybind11::array_t<uchar> &frame) {
+    NDArrayConverter cvt;
+    cv::Mat mat { cvt.toMat(frame.ptr()) };
+    return ProcessImageInternal(mat);
+}
+
+bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame)
+{
     if (frame.data)
     {
         cv::Mat bow = vocabluary->generateBOWImageDescs(frame);
         if (!bow.empty())
-        {    
+        {
             std::vector<of2::IMatch> matches;
             fabmap->localize(bow, matches, true);
-            
+
             double bestLikelihood = 0.0;
             int bestMatchIndex = -1;
             for (std::vector<of2::IMatch>::iterator iter = matches.begin(); iter != matches.end(); ++iter)
@@ -190,26 +202,25 @@ bool pyof2::OpenFABMAPPython::loadAndProcessImage(std::string imageFile)
                 }
             }
             lastMatch = bestMatchIndex;
-            loopClosures.append(boost::python::make_tuple(imageIndex, bestMatchIndex));
+            loopClosures.append(pybind11::make_tuple(imageIndex, bestMatchIndex));
             ++imageIndex;
             return true;
         }
         else {
-            std::cerr << "Could not get bag of words for image " << imageFile << std::endl;
+            return false;
         }
+        return true;
     }
-        else {
-            std::cerr << "Could not open image " << imageFile << std::endl;
-        }
     return false;
 }
+
 
 int pyof2::OpenFABMAPPython::getLastMatch() const
 {
     return lastMatch;
 }
 
-boost::python::list pyof2::OpenFABMAPPython::getAllLoopClosures() const
+pybind11::list pyof2::OpenFABMAPPython::getAllLoopClosures() const
 {
     return loopClosures;
 }

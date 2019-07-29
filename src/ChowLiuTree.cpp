@@ -2,28 +2,29 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <chowliutree.hpp>
 #include "ChowLiuTree.h"
+#include <conversion.h>
 
 // ----------------- ChowLiuTree -----------------
 
-pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, boost::python::dict settings) :
+pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, pybind11::dict settings) :
     ChowLiuTree(vocabluary, cv::Mat(), cv::Mat(), settings)
 {
     
 }
 
-pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, boost::python::dict settings) :
+pyof2::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, pybind11::dict settings) :
     vocabluary(vocabluary),
     chowLiuTree(std::move(chowLiuTree)),
     fabmapTrainData(std::move(fabmapTrainData)),
     lowerInformationBound(0.0005),
     treeBuilt(!this->chowLiuTree.empty())
 {
-    if (settings.has_key("ChowLiuOptions"))
+    if (settings.contains("ChowLiuOptions"))
     {
-        boost::python::dict trainSettings = boost::python::extract<boost::python::dict>(settings.get("ChowLiuOptions"));
-        if (trainSettings.has_key("LowerInfoBound"))
+        pybind11::dict trainSettings = settings["ChowLiuOptions"];
+        if (trainSettings.contains("LowerInfoBound"))
         {
-            lowerInformationBound = boost::python::extract<double>(trainSettings.get("LowerInfoBound"));
+            lowerInformationBound = trainSettings["LowerInfoBound"].cast<double>();
         }
     }
 }
@@ -33,9 +34,21 @@ pyof2::ChowLiuTree::~ChowLiuTree()
     
 }
 
-bool pyof2::ChowLiuTree::addTrainingImage(std::string imagePath)
+bool pyof2::ChowLiuTree::loadAndAddTrainingImage(std::string imagePath)
 {
     cv::Mat frame = cv::imread(imagePath, CV_LOAD_IMAGE_UNCHANGED);
+    return addTrainingImageInternal(frame);
+}
+
+bool pyof2::ChowLiuTree::addTrainingImage(const pybind11::array_t<uchar> &frame)
+{
+    NDArrayConverter cvt;
+    cv::Mat mat { cvt.toMat(frame.ptr()) };
+    return addTrainingImageInternal(mat);
+}
+
+bool pyof2::ChowLiuTree::addTrainingImageInternal(const cv::Mat &frame)
+{
     if (frame.data)
     {
         cv::Mat bow = vocabluary->generateBOWImageDescs(frame);
@@ -87,7 +100,7 @@ void pyof2::ChowLiuTree::save(std::string filename) const
     fs.release();
 }
 
-std::shared_ptr<pyof2::ChowLiuTree> pyof2::ChowLiuTree::load(boost::python::dict settings, std::string filename)
+std::shared_ptr<pyof2::ChowLiuTree> pyof2::ChowLiuTree::load(pybind11::dict settings, std::string filename)
 {
     cv::FileStorage fs;	
     fs.open(filename, cv::FileStorage::READ);

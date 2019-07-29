@@ -7,6 +7,9 @@
 #include "FabMapVocabluary.h"
 #include "detectorsAndExtractors.h"
 
+#include <conversion.h>
+#include <iostream>
+
 // ----------------- FabMapVocabluary -----------------
 
 pyof2::FabMapVocabluary::FabMapVocabluary(cv::Ptr<cv::FeatureDetector> detector, cv::Ptr<cv::DescriptorExtractor> extractor, cv::Mat vocabluary) :
@@ -48,7 +51,7 @@ void pyof2::FabMapVocabluary::save(cv::FileStorage fileStorage) const
     fileStorage << "Vocabluary" << vocab;
 }
 
-std::shared_ptr<pyof2::FabMapVocabluary> pyof2::FabMapVocabluary::load(const boost::python::dict& settings, cv::FileStorage fileStorage)
+std::shared_ptr<pyof2::FabMapVocabluary> pyof2::FabMapVocabluary::load(const pybind11::dict& settings, cv::FileStorage fileStorage)
 {
     cv::Mat vocab;
     fileStorage["Vocabluary"] >> vocab;
@@ -61,18 +64,18 @@ std::shared_ptr<pyof2::FabMapVocabluary> pyof2::FabMapVocabluary::load(const boo
 
 // ----------------- FabMapVocabluaryBuilder -----------------
 
-pyof2::FabMapVocabluaryBuilder::FabMapVocabluaryBuilder(boost::python::dict settings) :
+pyof2::FabMapVocabluaryBuilder::FabMapVocabluaryBuilder(pybind11::dict settings) :
         detector(pyof2::generateDetector(settings)),
         extractor(pyof2::generateExtractor(settings)),
         vocabTrainData(),
         clusterRadius(0.45)
 {
-    if (settings.has_key("VocabTrainOptions"))
+    if (settings.contains("VocabTrainOptions"))
     {
-        boost::python::dict trainSettings = boost::python::extract<boost::python::dict>(settings.get("VocabTrainOptions"));
-        if (trainSettings.has_key("ClusterSize"))
+        pybind11::dict trainSettings = settings["VocabTrainOptions"];
+        if (trainSettings.contains("ClusterSize"))
         {
-            clusterRadius = boost::python::extract<double>(trainSettings.get("ClusterSize"));
+            clusterRadius = trainSettings["ClusterSize"].cast<double>();
         }
     }
 }
@@ -82,19 +85,31 @@ pyof2::FabMapVocabluaryBuilder::~FabMapVocabluaryBuilder()
     
 }
 
-bool pyof2::FabMapVocabluaryBuilder::addTrainingImage(std::string imagePath)
+bool pyof2::FabMapVocabluaryBuilder::loadAndAddTrainingImage(std::string imagePath)
+{
+    cv::Mat frame = cv::imread(imagePath, CV_LOAD_IMAGE_UNCHANGED);
+    return addTrainingImageInternal(frame);
+}
+
+bool pyof2::FabMapVocabluaryBuilder::addTrainingImage(const pybind11::array_t<uchar> &frame)
+{
+  NDArrayConverter cvt;
+  cv::Mat mat { cvt.toMat(frame.ptr()) };
+  return addTrainingImageInternal(mat);
+}
+
+bool pyof2::FabMapVocabluaryBuilder::addTrainingImageInternal(const cv::Mat &frame)
 {
     cv::Mat descs, feats;
     std::vector<cv::KeyPoint> kpts;
-    
-    cv::Mat frame = cv::imread(imagePath, CV_LOAD_IMAGE_UNCHANGED);
+
     if (frame.data)
     {
         //detect & extract features
         detector->detect(frame, kpts);
         extractor->compute(frame, kpts, descs);
 
-        //add all descriptors to the training data 
+        //add all descriptors to the training data
         vocabTrainData.push_back(descs);
         return true;
     }

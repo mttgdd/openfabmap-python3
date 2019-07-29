@@ -4,7 +4,6 @@
 #include <memory>
 #include <vector>
 #include <Python.h>
-#include <boost/python.hpp>
 #include <fabmap.hpp>
 #include "FabMapVocabluary.h"
 #include "ChowLiuTree.h"
@@ -14,12 +13,18 @@ namespace pyof2 {
 class OpenFABMAPPython
 {
 public:
-    OpenFABMAPPython(std::shared_ptr<ChowLiuTree> chowLiuTree, boost::python::dict settings = boost::python::dict());
+    OpenFABMAPPython(std::shared_ptr<ChowLiuTree> chowLiuTree, pybind11::dict settings = pybind11::dict());
     virtual ~OpenFABMAPPython();
     
     bool loadAndProcessImage(std::string imageFile);
+    bool ProcessImage(const pybind11::array_t<uchar> &frame);
+
+ private:
+  bool ProcessImageInternal(const cv::Mat &frame);
+
+ public:
     int getLastMatch() const;
-    boost::python::list getAllLoopClosures() const;
+    pybind11::list getAllLoopClosures() const;
     
 private:
     std::shared_ptr<FabMapVocabluary> vocabluary;
@@ -27,7 +32,7 @@ private:
     
     int imageIndex;
     int lastMatch;
-    boost::python::list loopClosures;
+    pybind11::list loopClosures;
 };
 
 } // namespace pyof2
