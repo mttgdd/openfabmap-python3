@@ -5,7 +5,7 @@
 #include <vector>
 #include <Python.h>
 #include <fabmap.hpp>
-#include "FabMapVocabluary.h"
+#include "FabMapVocabulary.h"
 #include "ChowLiuTree.h"
 
 namespace pyof2 {
@@ -27,7 +27,7 @@ public:
     pybind11::list getAllLoopClosures() const;
     
 private:
-    std::shared_ptr<FabMapVocabluary> vocabluary;
+    std::shared_ptr<FabMapVocabulary> vocabulary;
     std::shared_ptr<of2::FabMap> fabmap;
     
     int imageIndex;

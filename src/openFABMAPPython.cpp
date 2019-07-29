@@ -60,7 +60,7 @@
 // ----------------- OpenFABMAPPython -----------------
 
 pyof2::OpenFABMAPPython::OpenFABMAPPython(std::shared_ptr<pyof2::ChowLiuTree> chowLiuTree, pybind11::dict settings) :
-        vocabluary(chowLiuTree->getVocabluary()),
+        vocabulary(chowLiuTree->getVocabulary()),
         fabmap(),
         imageIndex(0),
         lastMatch(-1),
@@ -185,7 +185,7 @@ bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame)
 {
     if (frame.data)
     {
-        cv::Mat bow = vocabluary->generateBOWImageDescs(frame);
+        cv::Mat bow = vocabulary->generateBOWImageDescs(frame);
         if (!bow.empty())
         {
             std::vector<of2::IMatch> matches;

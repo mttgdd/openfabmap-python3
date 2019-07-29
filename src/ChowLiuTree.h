@@ -2,7 +2,7 @@
 #define CHOWLIUTREE_H
 
 #include <string>
-#include "FabMapVocabluary.h"
+#include "FabMapVocabulary.h"
 
 #include <pybind11/pybind11.h>
 
@@ -12,8 +12,8 @@ namespace pyof2
 class ChowLiuTree
 {
 public:
-    ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, pybind11::dict settings);
-    ChowLiuTree(std::shared_ptr<FabMapVocabluary> vocabluary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, pybind11::dict settings);
+    ChowLiuTree(std::shared_ptr<FabMapVocabulary> vocabulary, pybind11::dict settings);
+    ChowLiuTree(std::shared_ptr<FabMapVocabulary> vocabulary, cv::Mat chowLiuTree, cv::Mat fabmapTrainData, pybind11::dict settings);
     virtual ~ChowLiuTree();
     
     // These function are exposed to python
@@ -29,12 +29,12 @@ public:
     static std::shared_ptr<ChowLiuTree> load(pybind11::dict settings, std::string filename);
     
     bool isTreeBuilt() const;
-    std::shared_ptr<FabMapVocabluary> getVocabluary() const;
+    std::shared_ptr<FabMapVocabulary> getVocabulary() const;
     cv::Mat getChowLiuTree() const;
     cv::Mat getTrainingData() const;
     
 private:
-    std::shared_ptr<FabMapVocabluary> vocabluary;
+    std::shared_ptr<FabMapVocabulary> vocabulary;
     cv::Mat chowLiuTree;
     cv::Mat fabmapTrainData;
     double lowerInformationBound;

@@ -1,5 +1,5 @@
 #include "ChowLiuTree.h"
-#include "FabMapVocabluary.h"
+#include "FabMapVocabulary.h"
 #include "openFABMAPPython.h"
 
 #include <pybind11/chrono.h>
@@ -12,23 +12,23 @@ PYBIND11_MODULE(openFABMAP, m) {
 
   PyEval_InitThreads();
 
-  pybind11::class_<pyof2::FabMapVocabluary,
-                   std::shared_ptr<pyof2::FabMapVocabluary>>(m, "Vocabluary");
+  pybind11::class_<pyof2::FabMapVocabulary,
+                   std::shared_ptr<pyof2::FabMapVocabulary>>(m, "Vocabulary");
 
-  pybind11::class_<pyof2::FabMapVocabluaryBuilder,
-                   std::shared_ptr<pyof2::FabMapVocabluaryBuilder>>(
-      m, "VocabluaryBuilder")
+  pybind11::class_<pyof2::FabMapVocabularyBuilder,
+                   std::shared_ptr<pyof2::FabMapVocabularyBuilder>>(
+      m, "VocabularyBuilder")
       .def(pybind11::init<pybind11::dict>())
       .def("add_training_image",
-           &pyof2::FabMapVocabluaryBuilder::addTrainingImage)
+           &pyof2::FabMapVocabularyBuilder::addTrainingImage)
       .def("load_and_add_training_image",
-           &pyof2::FabMapVocabluaryBuilder::loadAndAddTrainingImage)
-      .def("build_vocabluary",
-           &pyof2::FabMapVocabluaryBuilder::buildVocabluary);
+           &pyof2::FabMapVocabularyBuilder::loadAndAddTrainingImage)
+      .def("build_vocabulary",
+           &pyof2::FabMapVocabularyBuilder::buildVocabulary);
 
   pybind11::class_<pyof2::ChowLiuTree, std::shared_ptr<pyof2::ChowLiuTree>>(
       m, "ChowLiuTree")
-      .def(pybind11::init<std::shared_ptr<pyof2::FabMapVocabluary>,
+      .def(pybind11::init<std::shared_ptr<pyof2::FabMapVocabulary>,
                           pybind11::dict>())
       .def("add_training_image", &pyof2::ChowLiuTree::addTrainingImage)
       .def("load_and_add_training_image", &pyof2::ChowLiuTree::loadAndAddTrainingImage)

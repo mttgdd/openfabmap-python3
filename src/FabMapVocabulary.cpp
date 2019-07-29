@@ -4,33 +4,33 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <bowmsctrainer.hpp>
-#include "FabMapVocabluary.h"
+#include "FabMapVocabulary.h"
 #include "detectorsAndExtractors.h"
 
 #include <conversion.h>
 #include <iostream>
 
-// ----------------- FabMapVocabluary -----------------
+// ----------------- FabMapVocabulary -----------------
 
-pyof2::FabMapVocabluary::FabMapVocabluary(cv::Ptr<cv::FeatureDetector> detector, cv::Ptr<cv::DescriptorExtractor> extractor, cv::Mat vocabluary) :
+pyof2::FabMapVocabulary::FabMapVocabulary(cv::Ptr<cv::FeatureDetector> detector, cv::Ptr<cv::DescriptorExtractor> extractor, cv::Mat vocabulary) :
         detector(std::move(detector)),
         extractor(std::move(extractor)),
-        vocab(std::move(vocabluary))
+        vocab(std::move(vocabulary))
 {
     
 }
 
-pyof2::FabMapVocabluary::~FabMapVocabluary()
+pyof2::FabMapVocabulary::~FabMapVocabulary()
 {
     
 }
     
-cv::Mat pyof2::FabMapVocabluary::getVocabluary() const
+cv::Mat pyof2::FabMapVocabulary::getVocabulary() const
 {
     return vocab;
 }
 
-cv::Mat pyof2::FabMapVocabluary::generateBOWImageDescs(const cv::Mat& frame) const
+cv::Mat pyof2::FabMapVocabulary::generateBOWImageDescs(const cv::Mat& frame) const
 {
     //use a FLANN matcher to generate bag-of-words representations
     cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create("FlannBased");
@@ -45,26 +45,26 @@ cv::Mat pyof2::FabMapVocabluary::generateBOWImageDescs(const cv::Mat& frame) con
     return bow;
 }
 
-void pyof2::FabMapVocabluary::save(cv::FileStorage fileStorage) const
+void pyof2::FabMapVocabulary::save(cv::FileStorage fileStorage) const
 {
     // Note that this is a partial save, assume that the settings are saved elsewhere.
-    fileStorage << "Vocabluary" << vocab;
+    fileStorage << "Vocabulary" << vocab;
 }
 
-std::shared_ptr<pyof2::FabMapVocabluary> pyof2::FabMapVocabluary::load(const pybind11::dict& settings, cv::FileStorage fileStorage)
+std::shared_ptr<pyof2::FabMapVocabulary> pyof2::FabMapVocabulary::load(const pybind11::dict& settings, cv::FileStorage fileStorage)
 {
     cv::Mat vocab;
-    fileStorage["Vocabluary"] >> vocab;
+    fileStorage["Vocabulary"] >> vocab;
     
-    return std::make_shared<pyof2::FabMapVocabluary>(
+    return std::make_shared<pyof2::FabMapVocabulary>(
         pyof2::generateDetector(settings),
         pyof2::generateExtractor(settings),
         vocab);
 }
 
-// ----------------- FabMapVocabluaryBuilder -----------------
+// ----------------- FabMapVocabularyBuilder -----------------
 
-pyof2::FabMapVocabluaryBuilder::FabMapVocabluaryBuilder(pybind11::dict settings) :
+pyof2::FabMapVocabularyBuilder::FabMapVocabularyBuilder(pybind11::dict settings) :
         detector(pyof2::generateDetector(settings)),
         extractor(pyof2::generateExtractor(settings)),
         vocabTrainData(),
@@ -80,25 +80,25 @@ pyof2::FabMapVocabluaryBuilder::FabMapVocabluaryBuilder(pybind11::dict settings)
     }
 }
 
-pyof2::FabMapVocabluaryBuilder::~FabMapVocabluaryBuilder()
+pyof2::FabMapVocabularyBuilder::~FabMapVocabularyBuilder()
 {
     
 }
 
-bool pyof2::FabMapVocabluaryBuilder::loadAndAddTrainingImage(std::string imagePath)
+bool pyof2::FabMapVocabularyBuilder::loadAndAddTrainingImage(std::string imagePath)
 {
     cv::Mat frame = cv::imread(imagePath, CV_LOAD_IMAGE_UNCHANGED);
     return addTrainingImageInternal(frame);
 }
 
-bool pyof2::FabMapVocabluaryBuilder::addTrainingImage(const pybind11::array_t<uchar> &frame)
+bool pyof2::FabMapVocabularyBuilder::addTrainingImage(const pybind11::array_t<uchar> &frame)
 {
   NDArrayConverter cvt;
   cv::Mat mat { cvt.toMat(frame.ptr()) };
   return addTrainingImageInternal(mat);
 }
 
-bool pyof2::FabMapVocabluaryBuilder::addTrainingImageInternal(const cv::Mat &frame)
+bool pyof2::FabMapVocabularyBuilder::addTrainingImageInternal(const cv::Mat &frame)
 {
     cv::Mat descs, feats;
     std::vector<cv::KeyPoint> kpts;
@@ -116,7 +116,7 @@ bool pyof2::FabMapVocabluaryBuilder::addTrainingImageInternal(const cv::Mat &fra
     return false;
 }
 
-std::shared_ptr<pyof2::FabMapVocabluary> pyof2::FabMapVocabluaryBuilder::buildVocabluary()
+std::shared_ptr<pyof2::FabMapVocabulary> pyof2::FabMapVocabularyBuilder::buildVocabulary()
 {
     // Build the vocab
     of2::BOWMSCTrainer trainer(clusterRadius);
@@ -124,6 +124,6 @@ std::shared_ptr<pyof2::FabMapVocabluary> pyof2::FabMapVocabluaryBuilder::buildVo
     cv::Mat vocab = trainer.cluster();
     
     // Return the vocab object
-    return std::make_shared<pyof2::FabMapVocabluary>(detector, extractor, std::move(vocab));
+    return std::make_shared<pyof2::FabMapVocabulary>(detector, extractor, std::move(vocab));
 }
 

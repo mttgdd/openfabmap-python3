@@ -1,5 +1,5 @@
-#ifndef FABMAPVOCABLUARY_H
-#define FABMAPVOCABLUARY_H
+#ifndef FABMAPVOCABULARY_H
+#define FABMAPVOCABULARY_H
 
 #include <memory>
 #include <string>
@@ -12,18 +12,18 @@
 
 namespace pyof2 {
 
-class FabMapVocabluary {
+class FabMapVocabulary {
 public:
-  FabMapVocabluary(cv::Ptr<cv::FeatureDetector> detector,
+  FabMapVocabulary(cv::Ptr<cv::FeatureDetector> detector,
                    cv::Ptr<cv::DescriptorExtractor> extractor,
-                   cv::Mat vocabluary);
-  virtual ~FabMapVocabluary();
+                   cv::Mat vocabulary);
+  virtual ~FabMapVocabulary();
 
-  cv::Mat getVocabluary() const;
+  cv::Mat getVocabulary() const;
   cv::Mat generateBOWImageDescs(const cv::Mat &frame) const;
 
   void save(cv::FileStorage fileStorage) const;
-  static std::shared_ptr<FabMapVocabluary> load(const pybind11::dict &settings,
+  static std::shared_ptr<FabMapVocabulary> load(const pybind11::dict &settings,
                                                 cv::FileStorage fileStorage);
 
 private:
@@ -32,15 +32,15 @@ private:
   cv::Mat vocab;
 };
 
-class FabMapVocabluaryBuilder {
+class FabMapVocabularyBuilder {
 public:
-  FabMapVocabluaryBuilder(pybind11::dict settings = pybind11::dict());
-  virtual ~FabMapVocabluaryBuilder();
+  FabMapVocabularyBuilder(pybind11::dict settings = pybind11::dict());
+  virtual ~FabMapVocabularyBuilder();
 
   // These function are exposed to python
   bool loadAndAddTrainingImage(std::string imagePath);
   bool addTrainingImage(const pybind11::array_t<uchar> &frame);
-  std::shared_ptr<FabMapVocabluary> buildVocabluary();
+  std::shared_ptr<FabMapVocabulary> buildVocabulary();
 
  private:
   bool addTrainingImageInternal(const cv::Mat &frame);
@@ -55,4 +55,4 @@ public:
 
 } // namespace pyof2
 
-#endif // FABMAPVOCABLUARY_H
+#endif // FABMAPVOCABULARY_H
