@@ -12,6 +12,15 @@ if (NOT (OpenCV_VERSION VERSION_LESS "2.4.0"))
     add_definitions(-DOPENCV2P4)
 endif ()
 
+# openmp link
+find_package(OpenMP)
+if(OPENMP_FOUND)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    message("Found OpenMP")
+endif(OPENMP_FOUND)
+
+# python libraries
 find_package(PythonInterp REQUIRED)
 
 # numpy
