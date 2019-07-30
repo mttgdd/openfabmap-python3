@@ -188,6 +188,8 @@ bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
       std::vector<of2::IMatch> matches;
       fabmap->localize(bow, matches, true);
 
+      pybind11::list loopClosures;
+
       double bestLikelihood = 0.0;
       int bestMatchIndex = -1;
       for (std::vector<of2::IMatch>::iterator iter = matches.begin();
@@ -196,10 +198,11 @@ bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
           bestLikelihood = iter->likelihood;
           bestMatchIndex = iter->imgIdx;
         }
-        allLoopClosures.append(
-            pybind11::make_tuple(imageIndex, iter->imgIdx, iter->likelihood));
+        loopClosures.append(
+            pybind11::make_tuple(iter->imgIdx, iter->likelihood));
       }
       lastMatch = bestMatchIndex;
+      allLoopClosures[pybind11::int_(imageIndex)] = loopClosures;
       bestLoopClosures.append(
           pybind11::make_tuple(imageIndex, bestMatchIndex, bestLikelihood));
       ++imageIndex;

@@ -34,7 +34,7 @@ private:
   int imageIndex;
   int lastMatch;
   pybind11::list bestLoopClosures;
-  pybind11::list allLoopClosures;
+  pybind11::dict allLoopClosures;
 };
 
 } // namespace pyof2
