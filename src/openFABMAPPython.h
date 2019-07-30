@@ -25,7 +25,7 @@ private:
 public:
   int getLastMatch() const;
   pybind11::list getBestLoopClosures() const;
-  pybind11::list getAllLoopClosures() const;
+  pybind11::dict getAllLoopClosures() const;
 
 private:
   std::shared_ptr<FabMapVocabulary> vocabulary;

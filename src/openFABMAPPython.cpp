@@ -220,6 +220,6 @@ pybind11::list pyof2::OpenFABMAPPython::getBestLoopClosures() const {
   return bestLoopClosures;
 }
 
-pybind11::list pyof2::OpenFABMAPPython::getAllLoopClosures() const {
+pybind11::dict pyof2::OpenFABMAPPython::getAllLoopClosures() const {
   return allLoopClosures;
 }
