@@ -205,7 +205,6 @@ bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
     } else {
       return false;
     }
-    return true;
   }
   return false;
 }
