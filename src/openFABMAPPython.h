@@ -24,6 +24,7 @@ private:
 
 public:
   int getLastMatch() const;
+  pybind11::list getBestLoopClosures() const;
   pybind11::list getAllLoopClosures() const;
 
 private:
@@ -32,7 +33,8 @@ private:
 
   int imageIndex;
   int lastMatch;
-  pybind11::list loopClosures;
+  pybind11::list bestLoopClosures;
+  pybind11::list allLoopClosures;
 };
 
 } // namespace pyof2

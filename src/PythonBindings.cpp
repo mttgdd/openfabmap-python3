@@ -45,6 +45,8 @@ PYBIND11_MODULE(openFABMAP, m) {
            &pyof2::OpenFABMAPPython::loadAndProcessImage)
       .def("process_image", &pyof2::OpenFABMAPPython::ProcessImage)
       .def("get_last_match", &pyof2::OpenFABMAPPython::getLastMatch)
+      .def("get_best_loop_closures",
+           &pyof2::OpenFABMAPPython::getBestLoopClosures)
       .def("get_all_loop_closures",
            &pyof2::OpenFABMAPPython::getAllLoopClosures);
 }

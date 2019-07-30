@@ -62,7 +62,7 @@
 pyof2::OpenFABMAPPython::OpenFABMAPPython(
     std::shared_ptr<pyof2::ChowLiuTree> chowLiuTree, pybind11::dict settings)
     : vocabulary(chowLiuTree->getVocabulary()), fabmap(), imageIndex(0),
-      lastMatch(-1), loopClosures() {
+      lastMatch(-1), bestLoopClosures() {
   // Build the chow liu tree, if it hasn't been already.
   if (!chowLiuTree->isTreeBuilt()) {
     chowLiuTree->buildChowLiuTree();
@@ -196,9 +196,11 @@ bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
           bestLikelihood = iter->likelihood;
           bestMatchIndex = iter->imgIdx;
         }
+        allLoopClosures.append(
+            pybind11::make_tuple(imageIndex, iter->imgIdx, iter->likelihood));
       }
       lastMatch = bestMatchIndex;
-      loopClosures.append(
+      bestLoopClosures.append(
           pybind11::make_tuple(imageIndex, bestMatchIndex, bestLikelihood));
       ++imageIndex;
       return true;
@@ -211,6 +213,10 @@ bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
 
 int pyof2::OpenFABMAPPython::getLastMatch() const { return lastMatch; }
 
+pybind11::list pyof2::OpenFABMAPPython::getBestLoopClosures() const {
+  return bestLoopClosures;
+}
+
 pybind11::list pyof2::OpenFABMAPPython::getAllLoopClosures() const {
-  return loopClosures;
+  return allLoopClosures;
 }
