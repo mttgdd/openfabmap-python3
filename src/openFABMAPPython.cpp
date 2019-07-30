@@ -198,7 +198,8 @@ bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
         }
       }
       lastMatch = bestMatchIndex;
-      loopClosures.append(pybind11::make_tuple(imageIndex, bestMatchIndex));
+      loopClosures.append(
+          pybind11::make_tuple(imageIndex, bestMatchIndex, bestLikelihood));
       ++imageIndex;
       return true;
     } else {
