@@ -14,13 +14,15 @@ Other requirements, such as [openFABMAP](https://github.com/arrenglover/openfabm
 
 # Installation
 
+OpenCV needs to be installed separately. Once that is done, configure the install for your preferred python version.
+
 ```bash
 git clone git@github.com:mttgdd/openfabmap-python.git src
 cd src
 git submodule update --init
 mkdir build
 cd build
-cmake  ../src -DPYTHON_EXECUTABLE=python
+cmake  ../src -DPYTHON_EXECUTABLE=/usr/local/bin/python3.7
 make -j
 ```
 
