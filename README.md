@@ -38,7 +38,7 @@ python
 Then, the binding module can be imported:
 
 ```python
->>> import openFABMAP as of
+>>> import openfabmap_python3 as of
 ```
 
 The wrapper for building a vocabulary is configured and initialised using a dictionary:
