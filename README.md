@@ -1,4 +1,4 @@
-# py-openFABMAP
+# openfabmap_python3
 
 Pybind11 bindings for openFABMAP as well as conversions to allow pre-loaded images as numpy arrays to be fed into the FABMAP API.
 
