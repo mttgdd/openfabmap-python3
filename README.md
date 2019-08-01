@@ -6,12 +6,11 @@ This repository was initially forked from [openfabmap-python](<https://github.co
 
 # Requirements
 
-The major requirements are:
+The major requirement is:
 
-* [openFABMAP](https://github.com/arrenglover/openfabmap)
 * [OpenCV](https://github.com/opencv/opencv), with nonfree additions
 
-Other requirements, such as [pybind11](https://github.com/pybind/pybind11) and [opencv-ndarray-conversion](https://github.com/yati-sagade/opencv-ndarray-conversion/blob/master/README.md) are managed as git submodules.
+Other requirements, such as [openFABMAP](https://github.com/arrenglover/openfabmap), [pybind11](https://github.com/pybind/pybind11), and [opencv-ndarray-conversion](https://github.com/yati-sagade/opencv-ndarray-conversion/blob/master/README.md) are managed as git submodules.
 
 # Installation
 
