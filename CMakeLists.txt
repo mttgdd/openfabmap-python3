@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 project(openfabmap_python3)
 
-#Set the openFABMAP directory path
-#TODO: Convert this to a proper FindOpenFABMAP.cmake
-set(OPEN_FABMAP_INCLUDE_DIR "/opt/openFABMAP/include" CACHE STRING "Path to parent folder of openFABMAP headers")
-set(OPEN_FABMAP_LIB "/opt/openFABMAP/build/lib/libopenFABMAP.so" CACHE STRING "Path to openFABMAP library")
-
 # Macro for opencv version
 find_package(OpenCV REQUIRED)
 if (NOT (OpenCV_VERSION VERSION_LESS "2.4.0"))
@@ -43,7 +38,12 @@ endif ()
 add_subdirectory(pybind11)
 
 pybind11_add_module(
-        openFABMAP
+        openfabmap_python3
+        openfabmap/src/bowmsctrainer.cpp
+        openfabmap/src/chowliutree.cpp
+        openfabmap/src/fabmap.cpp
+        openfabmap/src/inference.cpp
+        openfabmap/src/msckd.cpp
         opencv-ndarray-conversion/conversion.cpp
         src/detectorsAndExtractors.cpp
         src/FabMapVocabulary.cpp
@@ -53,12 +53,11 @@ pybind11_add_module(
 
 include_directories(
         src
-        ${OPEN_FABMAP_INCLUDE_DIR}
+        openfabmap/include
         ${NUMPY_INCLUDE_DIR}
         opencv-ndarray-conversion)
 
 target_link_libraries(
-        openFABMAP
+        openfabmap_python3
         PRIVATE
-        ${OPEN_FABMAP_LIB}
-        ${OpenCV_LIBS})
+        ${OpenCV_LIBRARIES})

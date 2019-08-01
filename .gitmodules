@@ -4,3 +4,6 @@
 [submodule "opencv-ndarray-conversion"]
 	path = opencv-ndarray-conversion
 	url = https://github.com/yati-sagade/opencv-ndarray-conversion.git
+[submodule "openfabmap"]
+	path = openfabmap
+	url = https://github.com/arrenglover/openfabmap.git
