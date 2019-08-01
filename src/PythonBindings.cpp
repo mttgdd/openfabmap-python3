@@ -8,7 +8,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
 
-PYBIND11_MODULE(openFABMAP, m) {
+PYBIND11_MODULE(openfabmap_python3, m) {
 
   PyEval_InitThreads();
 
