@@ -12,6 +12,7 @@ The major requirements are:
 * [OpenCV](https://github.com/opencv/opencv), with nonfree additions
 
 Other requirements, such as [pybind11](https://github.com/pybind/pybind11) and [opencv-ndarray-conversion](https://github.com/yati-sagade/opencv-ndarray-conversion/blob/master/README.md) are managed as git submodules.
+
 # Installation
 
 ```bash
@@ -22,6 +23,32 @@ mkdir build
 cd build
 cmake  ../src -DOPEN_FABMAP_INCLUDE_DIR=/path/to/openfabmap/src/include -DOPEN_FABMAP_LIB=/path/to/libopenFABMAP.a
 make -j
+```
+
+# Examples
+
+## Building a vocabulary
+
+Open an interactive python session from within the installation directory for this library:
+
+```bash
+cd build/lib
+python
+```
+
+Then, the binding module can be imported:
+
+```python
+>>> import openFABMAP as of
+```
+
+The wrapper for building a vocabulary is configured and initialised using a dictionary:
+
+```python
+>>> SETTINGS = dict()
+>>> SETTINGS["VocabTrainOptions"] = dict()
+>>> SETTINGS["VocabTrainOptions"]["ClusterSize"] = 0.45
+>>> vb = of.VocabularyBuilder(SETTINGS)
 ```
 
 # References
