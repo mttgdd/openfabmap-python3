@@ -24,6 +24,12 @@ cmake  ../src -DPYTHON_EXECUTABLE=python
 make -j
 ```
 
+Test that installation was successful as follows:
+
+```bash
+python -c "from lib import openfabmap_python3"
+```
+
 # Examples
 
 ## Building a vocabulary
