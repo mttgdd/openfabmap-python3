@@ -20,7 +20,7 @@ cd src
 git submodule update --init
 mkdir build
 cd build
-cmake  ../src -DOPEN_FABMAP_INCLUDE_DIR=/path/to/openfabmap/src/include -DOPEN_FABMAP_LIB=/path/to/libopenFABMAP.a -DPYTHON_EXECUTABLE=/path/to/python/executable
+cmake  ../src -DPYTHON_EXECUTABLE=python
 make -j
 ```
 
