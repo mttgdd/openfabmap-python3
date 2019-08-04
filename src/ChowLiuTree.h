@@ -6,7 +6,7 @@
 
 #include <pybind11/pybind11.h>
 
-namespace pyof2 {
+namespace ofpy3 {
 
 class ChowLiuTree {
 public:
@@ -42,6 +42,6 @@ private:
   bool treeBuilt;
 };
 
-} // namespace pyof2
+} // namespace ofpy3
 
 #endif // CHOWLIUTREE_H

@@ -59,8 +59,8 @@
 
 // ----------------- OpenFABMAPPython -----------------
 
-pyof2::OpenFABMAPPython::OpenFABMAPPython(
-    std::shared_ptr<pyof2::ChowLiuTree> chowLiuTree, pybind11::dict settings)
+ofpy3::OpenFABMAPPython::OpenFABMAPPython(
+    std::shared_ptr<ofpy3::ChowLiuTree> chowLiuTree, pybind11::dict settings)
     : vocabulary(chowLiuTree->getVocabulary()), fabmap(), imageIndex(0),
       lastMatch(-1), bestLoopClosures() {
   // Build the chow liu tree, if it hasn't been already.
@@ -167,21 +167,21 @@ pyof2::OpenFABMAPPython::OpenFABMAPPython(
   fabmap->addTraining(chowLiuTree->getTrainingData());
 }
 
-pyof2::OpenFABMAPPython::~OpenFABMAPPython() {}
+ofpy3::OpenFABMAPPython::~OpenFABMAPPython() {}
 
-bool pyof2::OpenFABMAPPython::loadAndProcessImage(std::string imageFile) {
+bool ofpy3::OpenFABMAPPython::loadAndProcessImage(std::string imageFile) {
   cv::Mat frame = cv::imread(imageFile, CV_LOAD_IMAGE_UNCHANGED);
   return ProcessImageInternal(frame);
 }
 
-bool pyof2::OpenFABMAPPython::ProcessImage(
+bool ofpy3::OpenFABMAPPython::ProcessImage(
     const pybind11::array_t<uchar> &frame) {
   NDArrayConverter cvt;
   cv::Mat mat{cvt.toMat(frame.ptr())};
   return ProcessImageInternal(mat);
 }
 
-bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
+bool ofpy3::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
   if (frame.data) {
     cv::Mat bow = vocabulary->generateBOWImageDescs(frame);
     if (!bow.empty()) {
@@ -214,12 +214,12 @@ bool pyof2::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
   return false;
 }
 
-int pyof2::OpenFABMAPPython::getLastMatch() const { return lastMatch; }
+int ofpy3::OpenFABMAPPython::getLastMatch() const { return lastMatch; }
 
-pybind11::list pyof2::OpenFABMAPPython::getBestLoopClosures() const {
+pybind11::list ofpy3::OpenFABMAPPython::getBestLoopClosures() const {
   return bestLoopClosures;
 }
 
-pybind11::dict pyof2::OpenFABMAPPython::getAllLoopClosures() const {
+pybind11::dict ofpy3::OpenFABMAPPython::getAllLoopClosures() const {
   return allLoopClosures;
 }

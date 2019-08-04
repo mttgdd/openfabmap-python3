@@ -10,7 +10,7 @@
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 
-namespace pyof2 {
+namespace ofpy3 {
 
 class FabMapVocabulary {
 public:
@@ -53,6 +53,6 @@ private:
   double clusterRadius;
 };
 
-} // namespace pyof2
+} // namespace ofpy3
 
 #endif // FABMAPVOCABULARY_H

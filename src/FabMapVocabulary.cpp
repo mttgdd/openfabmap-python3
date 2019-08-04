@@ -12,18 +12,18 @@
 
 // ----------------- FabMapVocabulary -----------------
 
-pyof2::FabMapVocabulary::FabMapVocabulary(
+ofpy3::FabMapVocabulary::FabMapVocabulary(
     cv::Ptr<cv::FeatureDetector> detector,
     cv::Ptr<cv::DescriptorExtractor> extractor, cv::Mat vocabulary)
     : detector(std::move(detector)), extractor(std::move(extractor)),
       vocab(std::move(vocabulary)) {}
 
-pyof2::FabMapVocabulary::~FabMapVocabulary() {}
+ofpy3::FabMapVocabulary::~FabMapVocabulary() {}
 
-cv::Mat pyof2::FabMapVocabulary::getVocabulary() const { return vocab; }
+cv::Mat ofpy3::FabMapVocabulary::getVocabulary() const { return vocab; }
 
 cv::Mat
-pyof2::FabMapVocabulary::generateBOWImageDescs(const cv::Mat &frame) const {
+ofpy3::FabMapVocabulary::generateBOWImageDescs(const cv::Mat &frame) const {
   // use a FLANN matcher to generate bag-of-words representations
   cv::Ptr<cv::DescriptorMatcher> matcher =
       cv::DescriptorMatcher::create("FlannBased");
@@ -38,28 +38,28 @@ pyof2::FabMapVocabulary::generateBOWImageDescs(const cv::Mat &frame) const {
   return bow;
 }
 
-void pyof2::FabMapVocabulary::save(cv::FileStorage fileStorage) const {
+void ofpy3::FabMapVocabulary::save(cv::FileStorage fileStorage) const {
   // Note that this is a partial save, assume that the settings are saved
   // elsewhere.
   fileStorage << "Vocabulary" << vocab;
 }
 
-std::shared_ptr<pyof2::FabMapVocabulary>
-pyof2::FabMapVocabulary::load(const pybind11::dict &settings,
+std::shared_ptr<ofpy3::FabMapVocabulary>
+ofpy3::FabMapVocabulary::load(const pybind11::dict &settings,
                               cv::FileStorage fileStorage) {
   cv::Mat vocab;
   fileStorage["Vocabulary"] >> vocab;
 
-  return std::make_shared<pyof2::FabMapVocabulary>(
-      pyof2::generateDetector(settings), pyof2::generateExtractor(settings),
+  return std::make_shared<ofpy3::FabMapVocabulary>(
+      ofpy3::generateDetector(settings), ofpy3::generateExtractor(settings),
       vocab);
 }
 
 // ----------------- FabMapVocabularyBuilder -----------------
 
-pyof2::FabMapVocabularyBuilder::FabMapVocabularyBuilder(pybind11::dict settings)
-    : detector(pyof2::generateDetector(settings)),
-      extractor(pyof2::generateExtractor(settings)), vocabTrainData(),
+ofpy3::FabMapVocabularyBuilder::FabMapVocabularyBuilder(pybind11::dict settings)
+    : detector(ofpy3::generateDetector(settings)),
+      extractor(ofpy3::generateExtractor(settings)), vocabTrainData(),
       clusterRadius(0.45) {
   if (settings.contains("VocabTrainOptions")) {
     pybind11::dict trainSettings = settings["VocabTrainOptions"];
@@ -69,22 +69,22 @@ pyof2::FabMapVocabularyBuilder::FabMapVocabularyBuilder(pybind11::dict settings)
   }
 }
 
-pyof2::FabMapVocabularyBuilder::~FabMapVocabularyBuilder() {}
+ofpy3::FabMapVocabularyBuilder::~FabMapVocabularyBuilder() {}
 
-bool pyof2::FabMapVocabularyBuilder::loadAndAddTrainingImage(
+bool ofpy3::FabMapVocabularyBuilder::loadAndAddTrainingImage(
     std::string imagePath) {
   cv::Mat frame = cv::imread(imagePath, CV_LOAD_IMAGE_UNCHANGED);
   return addTrainingImageInternal(frame);
 }
 
-bool pyof2::FabMapVocabularyBuilder::addTrainingImage(
+bool ofpy3::FabMapVocabularyBuilder::addTrainingImage(
     const pybind11::array_t<uchar> &frame) {
   NDArrayConverter cvt;
   cv::Mat mat{cvt.toMat(frame.ptr())};
   return addTrainingImageInternal(mat);
 }
 
-bool pyof2::FabMapVocabularyBuilder::addTrainingImageInternal(
+bool ofpy3::FabMapVocabularyBuilder::addTrainingImageInternal(
     const cv::Mat &frame) {
   cv::Mat descs, feats;
   std::vector<cv::KeyPoint> kpts;
@@ -101,14 +101,14 @@ bool pyof2::FabMapVocabularyBuilder::addTrainingImageInternal(
   return false;
 }
 
-std::shared_ptr<pyof2::FabMapVocabulary>
-pyof2::FabMapVocabularyBuilder::buildVocabulary() {
+std::shared_ptr<ofpy3::FabMapVocabulary>
+ofpy3::FabMapVocabularyBuilder::buildVocabulary() {
   // Build the vocab
   of2::BOWMSCTrainer trainer(clusterRadius);
   trainer.add(vocabTrainData);
   cv::Mat vocab = trainer.cluster();
 
   // Return the vocab object
-  return std::make_shared<pyof2::FabMapVocabulary>(detector, extractor,
+  return std::make_shared<ofpy3::FabMapVocabulary>(detector, extractor,
                                                    std::move(vocab));
 }

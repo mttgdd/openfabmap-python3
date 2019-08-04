@@ -8,7 +8,7 @@
 #include <memory>
 #include <vector>
 
-namespace pyof2 {
+namespace ofpy3 {
 
 class OpenFABMAPPython {
 public:
@@ -37,6 +37,6 @@ private:
   pybind11::dict allLoopClosures;
 };
 
-} // namespace pyof2
+} // namespace ofpy3
 
 #endif // OPEN_FABMAP_PYTHON_H

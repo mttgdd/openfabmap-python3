@@ -12,41 +12,41 @@ PYBIND11_MODULE(openfabmap_python3, m) {
 
   PyEval_InitThreads();
 
-  pybind11::class_<pyof2::FabMapVocabulary,
-                   std::shared_ptr<pyof2::FabMapVocabulary>>(m, "Vocabulary");
+  pybind11::class_<ofpy3::FabMapVocabulary,
+                   std::shared_ptr<ofpy3::FabMapVocabulary>>(m, "Vocabulary");
 
-  pybind11::class_<pyof2::FabMapVocabularyBuilder,
-                   std::shared_ptr<pyof2::FabMapVocabularyBuilder>>(
+  pybind11::class_<ofpy3::FabMapVocabularyBuilder,
+                   std::shared_ptr<ofpy3::FabMapVocabularyBuilder>>(
       m, "VocabularyBuilder")
       .def(pybind11::init<pybind11::dict>())
       .def("add_training_image",
-           &pyof2::FabMapVocabularyBuilder::addTrainingImage)
+           &ofpy3::FabMapVocabularyBuilder::addTrainingImage)
       .def("load_and_add_training_image",
-           &pyof2::FabMapVocabularyBuilder::loadAndAddTrainingImage)
+           &ofpy3::FabMapVocabularyBuilder::loadAndAddTrainingImage)
       .def("build_vocabulary",
-           &pyof2::FabMapVocabularyBuilder::buildVocabulary);
+           &ofpy3::FabMapVocabularyBuilder::buildVocabulary);
 
-  pybind11::class_<pyof2::ChowLiuTree, std::shared_ptr<pyof2::ChowLiuTree>>(
+  pybind11::class_<ofpy3::ChowLiuTree, std::shared_ptr<ofpy3::ChowLiuTree>>(
       m, "ChowLiuTree")
-      .def(pybind11::init<std::shared_ptr<pyof2::FabMapVocabulary>,
+      .def(pybind11::init<std::shared_ptr<ofpy3::FabMapVocabulary>,
                           pybind11::dict>())
-      .def("add_training_image", &pyof2::ChowLiuTree::addTrainingImage)
+      .def("add_training_image", &ofpy3::ChowLiuTree::addTrainingImage)
       .def("load_and_add_training_image",
-           &pyof2::ChowLiuTree::loadAndAddTrainingImage)
-      .def("build_chow_liu_tree", &pyof2::ChowLiuTree::buildChowLiuTree)
-      .def("save", &pyof2::ChowLiuTree::save)
-      .def("load", &pyof2::ChowLiuTree::load);
+           &ofpy3::ChowLiuTree::loadAndAddTrainingImage)
+      .def("build_chow_liu_tree", &ofpy3::ChowLiuTree::buildChowLiuTree)
+      .def("save", &ofpy3::ChowLiuTree::save)
+      .def("load", &ofpy3::ChowLiuTree::load);
 
-  pybind11::class_<pyof2::OpenFABMAPPython,
-                   std::shared_ptr<pyof2::OpenFABMAPPython>>(m, "OpenFABMAP")
+  pybind11::class_<ofpy3::OpenFABMAPPython,
+                   std::shared_ptr<ofpy3::OpenFABMAPPython>>(m, "OpenFABMAP")
       .def(
-          pybind11::init<std::shared_ptr<pyof2::ChowLiuTree>, pybind11::dict>())
+          pybind11::init<std::shared_ptr<ofpy3::ChowLiuTree>, pybind11::dict>())
       .def("load_and_process_image",
-           &pyof2::OpenFABMAPPython::loadAndProcessImage)
-      .def("process_image", &pyof2::OpenFABMAPPython::ProcessImage)
-      .def("get_last_match", &pyof2::OpenFABMAPPython::getLastMatch)
+           &ofpy3::OpenFABMAPPython::loadAndProcessImage)
+      .def("process_image", &ofpy3::OpenFABMAPPython::ProcessImage)
+      .def("get_last_match", &ofpy3::OpenFABMAPPython::getLastMatch)
       .def("get_best_loop_closures",
-           &pyof2::OpenFABMAPPython::getBestLoopClosures)
+           &ofpy3::OpenFABMAPPython::getBestLoopClosures)
       .def("get_all_loop_closures",
-           &pyof2::OpenFABMAPPython::getAllLoopClosures);
+           &ofpy3::OpenFABMAPPython::getAllLoopClosures);
 }

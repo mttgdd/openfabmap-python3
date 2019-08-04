@@ -168,7 +168,7 @@ cv::Ptr<cv::FeatureDetector> createMSER(const pybind11::dict &settings) {
  * compatibility)
  */
 cv::Ptr<cv::FeatureDetector>
-pyof2::generateDetector(const pybind11::dict &settings) {
+ofpy3::generateDetector(const pybind11::dict &settings) {
   // Get the feature settings
   pybind11::dict featureOptions;
   if (settings.contains("FeatureOptions")) {
@@ -322,7 +322,7 @@ createSURFExtractor(const pybind11::dict &settings) {
  * @return
  */
 cv::Ptr<cv::DescriptorExtractor>
-pyof2::generateExtractor(const pybind11::dict &settings) {
+ofpy3::generateExtractor(const pybind11::dict &settings) {
   // Get the feature settings
   pybind11::dict featureOptions;
   if (settings.contains("FeatureOptions")) {
