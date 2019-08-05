@@ -61,8 +61,8 @@ The wrapper for building a vocabulary is configured and initialised using a dict
 Now, you have the option of adding the features extracted from images to the vocabulary in two ways. The first involves loading the image with OpenCV's C++ methods:
 
 ```python
-png_file = "example.png"
-vb.load_and_add_training_image(png_file)
+>>> png_file = "example.png"
+>>> vb.load_and_add_training_image(png_file)
 ```
 
 The second allows for a numpy array to be passed directly to the vocabulary builder wrapper. 
