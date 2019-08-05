@@ -58,6 +58,24 @@ The wrapper for building a vocabulary is configured and initialised using a dict
 >>> vb = of.VocabularyBuilder(SETTINGS)
 ```
 
+Now, you have the option of adding the features extracted from images to the vocabulary in two ways. The first involves loading the image with OpenCV's C++ methods:
+
+```python
+png_file = "example.png"
+vb.load_and_add_training_image(png_file)
+```
+
+The second allows for a numpy array to be passed directly to the vocabulary builder wrapper. 
+
+```python
+>>> from PIL import Image
+>>> png_file = "example.png"
+>>> img = Image.open(image_file)
+>>> vb.add_training_image(img)
+```
+
+This functionality allows image manipulation in Python prior to feature extraction (e.g. cropping, rotating, etc).
+
 # References
 
 * <https://github.com/arrenglover/openfabmap>
