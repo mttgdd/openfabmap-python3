@@ -32,9 +32,9 @@ Test that installation was successful as follows:
 python -c "from lib import openfabmap_python3"
 ```
 
-# Examples
+# Usage Instructions
 
-## Building a vocabulary
+## Loading the bindings
 
 Open an interactive python session from within the installation directory for this library:
 
@@ -49,23 +49,26 @@ Then, the binding module can be imported:
 >>> import openfabmap_python3 as of
 ```
 
-The wrapper for building a vocabulary is configured and initialised using a dictionary:
+## Configuration
+
+The wrapper methods are configured by a Python dictionary, an example of which is shown below:
 
 ```python
 >>> SETTINGS = dict()
 >>> SETTINGS["VocabTrainOptions"] = dict()
 >>> SETTINGS["VocabTrainOptions"]["ClusterSize"] = 0.45
->>> vb = of.VocabularyBuilder(SETTINGS)
 ```
 
-Now, you have the option of adding the features extracted from images to the vocabulary in two ways. The first involves loading the image with OpenCV's C++ methods:
+## Image Manipulation
+
+You have the option of delegating image manipulation and feature extraction to OpenCV's native C++ methods or precomputed from your Python routine. In the first case (where for example you are adding a training image to the vocabulary builder):
 
 ```python
 >>> png_file = "example.png"
 >>> vb.load_and_add_training_image(png_file)
 ```
 
-The second allows for a numpy array to be passed directly to the vocabulary builder wrapper. 
+In the second case (once again adding a training image to the vocabulary) we use the numpy array convertors of [opencv-ndarray-conversion](https://github.com/yati-sagade/opencv-ndarray-conversion/blob/master/README.md): 
 
 ```python
 >>> from PIL import Image
@@ -74,7 +77,31 @@ The second allows for a numpy array to be passed directly to the vocabulary buil
 >>> vb.add_training_image(img)
 ```
 
-This functionality allows image manipulation in Python prior to feature extraction (e.g. cropping, rotating, etc).
+This functionality allows image manipulation in Python prior to feature extraction (e.g. cropping, rotating, etc), or even feature extraction in Python.
+
+## Building a vocabulary
+
+The wrapper for building a vocabulary is configured and initialised using a dictionary:
+
+```python
+>>> vb = of.VocabularyBuilder(SETTINGS)
+```
+
+Then, add a number of images to the vocabulary using ```add_training_image``` or ```load_and_add_training_image``` before building the vocabulary:
+
+```python
+>>> vb.build_vocabulary() 
+```
+
+Likewise, ```add_training_image``` or ```load_and_add_training_image``` are then used to populate the Chowliu tree structures before that model is built:
+
+```python
+# inspect the ctor in ChowLiuTree.cpp to see which configuration parameters are required
+>>> clt = of.ChowLiuTree(SETTINGS)
+>>> clt.build_chow_liu_tree()
+```
+
+Finally, the model (including the vocabulary) can be saved to disk using ```save``` (and indeed loaded from disk using ```load```).
 
 # References
 
