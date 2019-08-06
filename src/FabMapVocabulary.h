@@ -40,10 +40,13 @@ public:
   // These function are exposed to python
   bool loadAndAddTrainingImage(std::string imagePath);
   bool addTrainingImage(const pybind11::array_t<uchar> &frame);
+  void addTrainingDescs(const pybind11::array_t<uchar> &descs);
+
   std::shared_ptr<FabMapVocabulary> buildVocabulary();
 
 private:
   bool addTrainingImageInternal(const cv::Mat &frame);
+  void addTrainingDescsInternal(const cv::Mat &descs);
 
 private:
   cv::Ptr<cv::FeatureDetector> detector;

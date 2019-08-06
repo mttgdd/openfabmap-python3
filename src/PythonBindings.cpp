@@ -23,6 +23,8 @@ PYBIND11_MODULE(openfabmap_python3, m) {
            &ofpy3::FabMapVocabularyBuilder::addTrainingImage)
       .def("load_and_add_training_image",
            &ofpy3::FabMapVocabularyBuilder::loadAndAddTrainingImage)
+      .def("add_training_descs",
+           &ofpy3::FabMapVocabularyBuilder::addTrainingDescs)
       .def("build_vocabulary",
            &ofpy3::FabMapVocabularyBuilder::buildVocabulary);
 

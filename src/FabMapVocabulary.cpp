@@ -84,6 +84,13 @@ bool ofpy3::FabMapVocabularyBuilder::addTrainingImage(
   return addTrainingImageInternal(mat);
 }
 
+void ofpy3::FabMapVocabularyBuilder::addTrainingDescs(
+    const pybind11::array_t<uchar> &descs) {
+  NDArrayConverter cvt;
+  cv::Mat mat{cvt.toMat(descs.ptr())};
+  addTrainingDescsInternal(mat);
+}
+
 bool ofpy3::FabMapVocabularyBuilder::addTrainingImageInternal(
     const cv::Mat &frame) {
   cv::Mat descs, feats;
@@ -95,10 +102,15 @@ bool ofpy3::FabMapVocabularyBuilder::addTrainingImageInternal(
     extractor->compute(frame, kpts, descs);
 
     // add all descriptors to the training data
-    vocabTrainData.push_back(descs);
+    addTrainingDescsInternal(descs);
     return true;
   }
   return false;
+}
+
+void ofpy3::FabMapVocabularyBuilder::addTrainingDescsInternal(
+    const cv::Mat &descs) {
+  vocabTrainData.push_back(descs);
 }
 
 std::shared_ptr<ofpy3::FabMapVocabulary>
