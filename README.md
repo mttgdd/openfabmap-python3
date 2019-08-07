@@ -4,6 +4,8 @@ Pybind11 bindings for openFABMAP as well as conversions to allow pre-loaded imag
 
 This repository was initially forked from [openfabmap-python](<https://github.com/jskinn/openfabmap-python>) but pybind11 was selected to replace [boost-python](https://github.com/boostorg/python) due to Python2 reaching [end of life](https://legacy.python.org/dev/peps/pep-0373/).
 
+A stretch goal for this project is to permit complete insertion capability for the FAB-MAP API and to allow point features computed from non-openCV scripting environments to populate the bag-of-words framework. These point features may simply be pure language implementations (prototyping) or even learned using one of the multitude of ML frameworks available in Python. A simple example may be using features at a layer in the network described in [Discriminative Learning of Deep Convolutional Feature Point Descriptors](https://icwww.epfl.ch/~trulls/pdf/iccv-2015-deepdesc.pdf).
+
 # Requirements
 
 The major requirement is:
