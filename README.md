@@ -101,7 +101,7 @@ Then, add a number of images to the vocabulary using ```add_training_image```, `
 >>> vb.build_vocabulary() 
 ```
 
-Note that in the case you wish to use the native C++ feature extraction you should perform ```vb.initDetectorExtractor``` and prepare the ```SETTINGS``` dictionary appropriately.
+Note that in the case you wish to use the native C++ feature extraction you should perform ```vb.initDetectorExtractor()``` and prepare the ```SETTINGS``` dictionary appropriately.
 Likewise ```add_training_image```, ```load_and_add_training_image```, or ```add_training_descs``` are then used to populate the Chowliu tree structures before that model is built:
 
 ```python
