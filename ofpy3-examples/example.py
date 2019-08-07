@@ -19,8 +19,10 @@ vb.add_training_image(img)
 
 # pass already-extracted features
 import cv2
+import numpy as np
 
 gray = cv2.imread("lenna.png", cv2.IMREAD_GRAYSCALE)
 orb = cv2.ORB_create(nfeatures=1500)
 keypoints, descriptors = orb.detectAndCompute(gray, None)
-vb.add_training_descs(descriptors)
+descs = np.asarray(descriptors)
+vb.add_training_descs(descs)
