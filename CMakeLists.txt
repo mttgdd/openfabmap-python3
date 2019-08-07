@@ -61,3 +61,6 @@ target_link_libraries(
         openfabmap_python3
         PRIVATE
         ${OpenCV_LIBRARIES})
+
+file(COPY example.py
+        DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} )
