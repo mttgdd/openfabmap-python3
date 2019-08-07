@@ -21,6 +21,8 @@ vb.add_training_image(img)
 import cv2
 import numpy as np
 
+vb = of.VocabularyBuilder(SETTINGS)
+
 gray = cv2.imread("lenna.png", cv2.IMREAD_GRAYSCALE)
 orb = cv2.ORB_create(nfeatures=1500)
 keypoints, descriptors = orb.detectAndCompute(gray, None)
