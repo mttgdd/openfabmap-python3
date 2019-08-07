@@ -64,3 +64,5 @@ target_link_libraries(
 
 file(COPY example.py
         DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} )
+file(COPY lenna.png
+        DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} )
