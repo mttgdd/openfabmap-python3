@@ -62,7 +62,7 @@ target_link_libraries(
         PRIVATE
         ${OpenCV_LIBRARIES})
 
-file(COPY example.py
+file(COPY ofpy3-examples/example.py
         DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} )
-file(COPY lenna.png
+file(COPY ofpy3-examples/lenna.png
         DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} )
