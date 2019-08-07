@@ -17,7 +17,7 @@ public:
   FabMapVocabulary(cv::Ptr<cv::FeatureDetector> detector,
                    cv::Ptr<cv::DescriptorExtractor> extractor,
                    cv::Mat vocabulary);
-  virtual ~FabMapVocabulary();
+  virtual ~FabMapVocabulary() = default;
 
   cv::Mat getVocabulary() const;
   cv::Mat generateBOWImageDescs(const cv::Mat &frame) const;
@@ -35,7 +35,7 @@ private:
 class FabMapVocabularyBuilder {
 public:
   FabMapVocabularyBuilder(pybind11::dict settings = pybind11::dict());
-  virtual ~FabMapVocabularyBuilder();
+  virtual ~FabMapVocabularyBuilder() = default;
 
   // These function are exposed to python
   bool loadAndAddTrainingImage(std::string imagePath);

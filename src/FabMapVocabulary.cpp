@@ -18,8 +18,6 @@ ofpy3::FabMapVocabulary::FabMapVocabulary(
     : detector(std::move(detector)), extractor(std::move(extractor)),
       vocab(std::move(vocabulary)) {}
 
-ofpy3::FabMapVocabulary::~FabMapVocabulary() {}
-
 cv::Mat ofpy3::FabMapVocabulary::getVocabulary() const { return vocab; }
 
 cv::Mat
@@ -68,8 +66,6 @@ ofpy3::FabMapVocabularyBuilder::FabMapVocabularyBuilder(pybind11::dict settings)
     }
   }
 }
-
-ofpy3::FabMapVocabularyBuilder::~FabMapVocabularyBuilder() {}
 
 bool ofpy3::FabMapVocabularyBuilder::loadAndAddTrainingImage(
     std::string imagePath) {
