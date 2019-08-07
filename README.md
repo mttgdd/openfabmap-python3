@@ -95,13 +95,14 @@ The wrapper for building a vocabulary is configured and initialised using a dict
 >>> vb = of.VocabularyBuilder(SETTINGS)
 ```
 
-Then, add a number of images to the vocabulary using ```add_training_image``` or ```load_and_add_training_image``` before building the vocabulary:
+Then, add a number of images to the vocabulary using ```add_training_image```, ```load_and_add_training_image```, ```add_training_descs``` before building the vocabulary:
 
 ```python
 >>> vb.build_vocabulary() 
 ```
 
-Likewise, ```add_training_image``` or ```load_and_add_training_image``` are then used to populate the Chowliu tree structures before that model is built:
+Note that in the case you wish to use the native C++ feature extraction you should perform ```vb.initDetectorExtractor``` and prepare the ```SETTINGS``` dictionary appropriately.
+Likewise ```add_training_image```, ```load_and_add_training_image```, or ```add_training_descs``` are then used to populate the Chowliu tree structures before that model is built:
 
 ```python
 # inspect the ctor in ChowLiuTree.cpp to see which configuration parameters are required
