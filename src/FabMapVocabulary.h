@@ -34,7 +34,7 @@ private:
 
 class FabMapVocabularyBuilder {
 public:
-  FabMapVocabularyBuilder(pybind11::dict settings = pybind11::dict());
+  explicit FabMapVocabularyBuilder(pybind11::dict settings = pybind11::dict());
   virtual ~FabMapVocabularyBuilder() = default;
 
   // These function are exposed to python
