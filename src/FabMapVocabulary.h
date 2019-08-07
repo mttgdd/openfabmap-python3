@@ -38,6 +38,7 @@ public:
   virtual ~FabMapVocabularyBuilder() = default;
 
   // These function are exposed to python
+  void initDetectorExtractor(pybind11::dict settings);
   bool loadAndAddTrainingImage(std::string imagePath);
   bool addTrainingImage(const pybind11::array_t<uchar> &frame);
   void addTrainingDescs(const pybind11::array_t<uchar> &descs);

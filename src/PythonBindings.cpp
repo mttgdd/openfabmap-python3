@@ -19,6 +19,8 @@ PYBIND11_MODULE(openfabmap_python3, m) {
                    std::shared_ptr<ofpy3::FabMapVocabularyBuilder>>(
       m, "VocabularyBuilder")
       .def(pybind11::init<pybind11::dict>())
+      .def("init_detector_extractor",
+           &ofpy3::FabMapVocabularyBuilder::initDetectorExtractor)
       .def("add_training_image",
            &ofpy3::FabMapVocabularyBuilder::addTrainingImage)
       .def("load_and_add_training_image",

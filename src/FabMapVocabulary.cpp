@@ -56,15 +56,19 @@ ofpy3::FabMapVocabulary::load(const pybind11::dict &settings,
 // ----------------- FabMapVocabularyBuilder -----------------
 
 ofpy3::FabMapVocabularyBuilder::FabMapVocabularyBuilder(pybind11::dict settings)
-    : detector(ofpy3::generateDetector(settings)),
-      extractor(ofpy3::generateExtractor(settings)), vocabTrainData(),
-      clusterRadius(0.45) {
+    : vocabTrainData(), clusterRadius(0.45) {
   if (settings.contains("VocabTrainOptions")) {
     pybind11::dict trainSettings = settings["VocabTrainOptions"];
     if (trainSettings.contains("ClusterSize")) {
       clusterRadius = trainSettings["ClusterSize"].cast<double>();
     }
   }
+}
+
+void ofpy3::FabMapVocabularyBuilder::initDetectorExtractor(
+    pybind11::dict settings) {
+  detector = ofpy3::generateDetector(settings);
+  extractor = ofpy3::generateExtractor(settings);
 }
 
 bool ofpy3::FabMapVocabularyBuilder::loadAndAddTrainingImage(
