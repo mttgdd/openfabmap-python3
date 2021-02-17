@@ -16,9 +16,11 @@ public:
                    pybind11::dict settings = pybind11::dict());
   virtual ~OpenFABMAPPython();
 
+  void addDesc(const pybind11::array_t<float> & qImgDesc_arr);
+
   bool loadAndProcessImage(std::string imageFile);
   bool ProcessImage(const pybind11::array_t<uchar> &frame);
-  bool ProcessDesc(const pybind11::array_t<float> & desc_arr);
+  bool ProcessDesc(const pybind11::array_t<float> & desc_arr, bool addQ);
 
 private:
   bool ProcessImageInternal(const cv::Mat &frame);

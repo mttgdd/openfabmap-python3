@@ -50,6 +50,7 @@ PYBIND11_MODULE(openfabmap_python3, m) {
            &ofpy3::OpenFABMAPPython::loadAndProcessImage)
       .def("process_image", &ofpy3::OpenFABMAPPython::ProcessImage)
       .def("process_desc", &ofpy3::OpenFABMAPPython::ProcessDesc)
+      .def("add_desc", &ofpy3::OpenFABMAPPython::addDesc)
       .def("get_last_match", &ofpy3::OpenFABMAPPython::getLastMatch)
       .def("get_best_loop_closures",
            &ofpy3::OpenFABMAPPython::getBestLoopClosures)

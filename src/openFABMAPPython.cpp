@@ -169,6 +169,12 @@ ofpy3::OpenFABMAPPython::OpenFABMAPPython(
 
 ofpy3::OpenFABMAPPython::~OpenFABMAPPython() {}
 
+void ofpy3::OpenFABMAPPython::addDesc(const pybind11::array_t<float> & qImgDesc_arr) {
+  NDArrayConverter cvt;
+  cv::Mat qImgDesc{cvt.toMat(qImgDesc_arr.ptr())};
+  fabmap->add(qImgDesc);
+}
+
 bool ofpy3::OpenFABMAPPython::loadAndProcessImage(std::string imageFile) {
   cv::Mat frame = cv::imread(imageFile, CV_LOAD_IMAGE_UNCHANGED);
   return ProcessImageInternal(frame);
@@ -214,7 +220,7 @@ bool ofpy3::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
   return false;
 }
 
-bool ofpy3::OpenFABMAPPython::ProcessDesc(const pybind11::array_t<float> & desc_arr) {
+bool ofpy3::OpenFABMAPPython::ProcessDesc(const pybind11::array_t<float> & desc_arr, bool addQ) {
 
   NDArrayConverter cvt;
   cv::Mat desc{cvt.toMat(desc_arr.ptr())};
@@ -223,7 +229,7 @@ bool ofpy3::OpenFABMAPPython::ProcessDesc(const pybind11::array_t<float> & desc_
 
   if (!bow.empty()) {
     std::vector<of2::IMatch> matches;
-    fabmap->localize(bow, matches, true);
+    fabmap->localize(bow, matches, addQ);
 
     pybind11::list loopClosures;
 
