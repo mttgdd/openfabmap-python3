@@ -35,6 +35,7 @@ PYBIND11_MODULE(openfabmap_python3, m) {
       .def(pybind11::init<std::shared_ptr<ofpy3::FabMapVocabulary>,
                           pybind11::dict>())
       .def("add_training_image", &ofpy3::ChowLiuTree::addTrainingImage)
+      .def("add_training_desc", &ofpy3::ChowLiuTree::addTrainingDesc)
       .def("load_and_add_training_image",
            &ofpy3::ChowLiuTree::loadAndAddTrainingImage)
       .def("build_chow_liu_tree", &ofpy3::ChowLiuTree::buildChowLiuTree)
@@ -48,6 +49,7 @@ PYBIND11_MODULE(openfabmap_python3, m) {
       .def("load_and_process_image",
            &ofpy3::OpenFABMAPPython::loadAndProcessImage)
       .def("process_image", &ofpy3::OpenFABMAPPython::ProcessImage)
+      .def("process_desc", &ofpy3::OpenFABMAPPython::ProcessDesc)
       .def("get_last_match", &ofpy3::OpenFABMAPPython::getLastMatch)
       .def("get_best_loop_closures",
            &ofpy3::OpenFABMAPPython::getBestLoopClosures)

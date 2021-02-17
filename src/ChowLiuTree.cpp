@@ -3,6 +3,7 @@
 #include <conversion.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <iostream>
 
 // ----------------- ChowLiuTree -----------------
 
@@ -22,6 +23,7 @@ ofpy3::ChowLiuTree::ChowLiuTree(std::shared_ptr<FabMapVocabulary> vocabulary,
       lowerInformationBound = trainSettings["LowerInfoBound"].cast<double>();
     }
   }
+  vocabulary->convert();
 }
 
 ofpy3::ChowLiuTree::~ChowLiuTree() {}
@@ -36,6 +38,19 @@ bool ofpy3::ChowLiuTree::addTrainingImage(
   NDArrayConverter cvt;
   cv::Mat mat{cvt.toMat(frame.ptr())};
   return addTrainingImageInternal(mat);
+}
+
+bool ofpy3::ChowLiuTree::addTrainingDesc(
+    const pybind11::array_t<float> &desc_arr) {
+  NDArrayConverter cvt;
+  cv::Mat desc{cvt.toMat(desc_arr.ptr())};
+  if (desc.data) {
+    cv::Mat bow = vocabulary->generateBOWImageDescsInternal(desc);
+    fabmapTrainData.push_back(std::move(bow));
+    treeBuilt = false;
+    return true;
+  }
+  return false;
 }
 
 bool ofpy3::ChowLiuTree::addTrainingImageInternal(const cv::Mat &frame) {

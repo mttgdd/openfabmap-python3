@@ -18,6 +18,7 @@ public:
 
   bool loadAndProcessImage(std::string imageFile);
   bool ProcessImage(const pybind11::array_t<uchar> &frame);
+  bool ProcessDesc(const pybind11::array_t<float> & desc_arr);
 
 private:
   bool ProcessImageInternal(const cv::Mat &frame);

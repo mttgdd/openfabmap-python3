@@ -214,6 +214,43 @@ bool ofpy3::OpenFABMAPPython::ProcessImageInternal(const cv::Mat &frame) {
   return false;
 }
 
+bool ofpy3::OpenFABMAPPython::ProcessDesc(const pybind11::array_t<float> & desc_arr) {
+
+  NDArrayConverter cvt;
+  cv::Mat desc{cvt.toMat(desc_arr.ptr())};
+
+  cv::Mat bow = vocabulary->generateBOWImageDescsInternal(desc);
+
+  if (!bow.empty()) {
+    std::vector<of2::IMatch> matches;
+    fabmap->localize(bow, matches, true);
+
+    pybind11::list loopClosures;
+
+    double bestLikelihood = 0.0;
+    int bestMatchIndex = -1;
+    for (std::vector<of2::IMatch>::iterator iter = matches.begin();
+         iter != matches.end(); ++iter) {
+      if (iter->likelihood > bestLikelihood) {
+        bestLikelihood = iter->likelihood;
+        bestMatchIndex = iter->imgIdx;
+      }
+      loopClosures.append(
+          pybind11::make_tuple(iter->imgIdx, iter->likelihood));
+    }
+    lastMatch = bestMatchIndex;
+    allLoopClosures[pybind11::int_(imageIndex)] = loopClosures;
+    bestLoopClosures.append(
+        pybind11::make_tuple(imageIndex, bestMatchIndex, bestLikelihood));
+    ++imageIndex;
+    return true;
+  } else {
+    return false;
+  }
+
+  return false;
+}
+
 int ofpy3::OpenFABMAPPython::getLastMatch() const { return lastMatch; }
 
 pybind11::list ofpy3::OpenFABMAPPython::getBestLoopClosures() const {

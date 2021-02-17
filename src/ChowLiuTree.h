@@ -21,7 +21,10 @@ public:
   bool addTrainingImage(const pybind11::array_t<uchar> &frame);
   void buildChowLiuTree();
 
-private:
+  bool addTrainingDesc(
+      const pybind11::array_t<float> &desc_arr);
+
+ private:
   bool addTrainingImageInternal(const cv::Mat &frame);
 
 public:

@@ -21,6 +21,13 @@ public:
 
   cv::Mat getVocabulary() const;
   cv::Mat generateBOWImageDescs(const cv::Mat &frame) const;
+  cv::Mat generateBOWImageDescsInternal(cv::Mat desc) const;
+
+  void compute(
+      cv::Ptr<cv::DescriptorMatcher> dmatcher, cv::Mat keypointDescriptors,
+      cv::Mat &_imgDescriptor ) const;
+
+  void convert();
 
   void save(cv::FileStorage fileStorage) const;
   static std::shared_ptr<FabMapVocabulary> load(const pybind11::dict &settings,

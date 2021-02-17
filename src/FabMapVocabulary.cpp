@@ -36,6 +36,59 @@ ofpy3::FabMapVocabulary::generateBOWImageDescs(const cv::Mat &frame) const {
   return bow;
 }
 
+cv::Mat
+ofpy3::FabMapVocabulary::generateBOWImageDescsInternal(cv::Mat desc) const {
+  // use a FLANN matcher to generate bag-of-words representations
+  cv::Ptr<cv::DescriptorMatcher> matcher =
+      cv::DescriptorMatcher::create("FlannBased");
+
+  cv::Mat bow;
+
+  compute(matcher, desc, bow);
+
+  return bow;
+}
+
+void ofpy3::FabMapVocabulary::compute(
+    cv::Ptr<cv::DescriptorMatcher> dmatcher, cv::Mat keypointDescriptors,
+    cv::Mat &_imgDescriptor ) const
+{
+  CV_Assert( !vocab.empty() );
+  CV_Assert(!keypointDescriptors.empty());
+
+  int clusterCount = vocab.rows; // = vocabulary.rows
+
+  // Match keypoint descriptors to cluster center (to vocabulary)
+  std::vector<cv::DMatch> matches;
+  dmatcher->match( keypointDescriptors, vocab, matches );
+
+  // Compute image descriptor
+
+  _imgDescriptor.create(1, clusterCount, CV_32FC1);
+  _imgDescriptor.setTo(cv::Scalar::all(0));
+
+  float *dptr = _imgDescriptor.ptr<float>();
+  for( size_t i = 0; i < matches.size(); i++ )
+  {
+    int queryIdx = matches[i].queryIdx;
+    int trainIdx = matches[i].trainIdx; // cluster index
+    CV_Assert( queryIdx == (int)i );
+
+    dptr[trainIdx] = dptr[trainIdx] + 1.f;
+  }
+
+  // Normalize image descriptor.
+  _imgDescriptor /= keypointDescriptors.size().height;
+}
+
+void ofpy3::FabMapVocabulary::convert() {
+  cv::Mat vocab_;
+  vocab.convertTo(vocab_, CV_32F);
+  vocab = vocab_;
+}
+
+
+
 void ofpy3::FabMapVocabulary::save(cv::FileStorage fileStorage) const {
   // Note that this is a partial save, assume that the settings are saved
   // elsewhere.
