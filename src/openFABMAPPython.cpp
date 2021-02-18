@@ -172,7 +172,8 @@ ofpy3::OpenFABMAPPython::~OpenFABMAPPython() {}
 void ofpy3::OpenFABMAPPython::addDesc(const pybind11::array_t<float> & qImgDesc_arr) {
   NDArrayConverter cvt;
   cv::Mat qImgDesc{cvt.toMat(qImgDesc_arr.ptr())};
-  fabmap->add(qImgDesc);
+  cv::Mat bow = vocabulary->generateBOWImageDescsInternal(qImgDesc);
+  fabmap->add(bow);
 }
 
 bool ofpy3::OpenFABMAPPython::loadAndProcessImage(std::string imageFile) {
