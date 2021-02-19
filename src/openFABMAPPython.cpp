@@ -246,6 +246,7 @@ bool ofpy3::OpenFABMAPPython::ProcessDesc(const pybind11::array_t<float> & desc_
           pybind11::make_tuple(iter->imgIdx, iter->likelihood));
     }
     lastMatch = bestMatchIndex;
+    lastLikelihood = bestLikelihood;
     allLoopClosures[pybind11::int_(imageIndex)] = loopClosures;
     bestLoopClosures.append(
         pybind11::make_tuple(imageIndex, bestMatchIndex, bestLikelihood));
@@ -259,6 +260,8 @@ bool ofpy3::OpenFABMAPPython::ProcessDesc(const pybind11::array_t<float> & desc_
 }
 
 int ofpy3::OpenFABMAPPython::getLastMatch() const { return lastMatch; }
+
+int ofpy3::OpenFABMAPPython::getLastLikelihood() const { return lastLikelihood; }
 
 pybind11::list ofpy3::OpenFABMAPPython::getBestLoopClosures() const {
   return bestLoopClosures;

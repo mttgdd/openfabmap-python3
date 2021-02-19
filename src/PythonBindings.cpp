@@ -52,6 +52,7 @@ PYBIND11_MODULE(openfabmap_python3, m) {
       .def("process_desc", &ofpy3::OpenFABMAPPython::ProcessDesc)
       .def("add_desc", &ofpy3::OpenFABMAPPython::addDesc)
       .def("get_last_match", &ofpy3::OpenFABMAPPython::getLastMatch)
+      .def("get_last_likelihood", &ofpy3::OpenFABMAPPython::getLastLikelihood)
       .def("get_best_loop_closures",
            &ofpy3::OpenFABMAPPython::getBestLoopClosures)
       .def("get_all_loop_closures",

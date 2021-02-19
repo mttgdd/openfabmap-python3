@@ -27,6 +27,7 @@ private:
 
 public:
   int getLastMatch() const;
+  double getLastLikelihood() const;
   pybind11::list getBestLoopClosures() const;
   pybind11::dict getAllLoopClosures() const;
 
@@ -36,6 +37,7 @@ private:
 
   int imageIndex;
   int lastMatch;
+  double lastLikelihood;
   pybind11::list bestLoopClosures;
   pybind11::dict allLoopClosures;
 };
