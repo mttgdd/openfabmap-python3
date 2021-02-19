@@ -261,7 +261,7 @@ bool ofpy3::OpenFABMAPPython::ProcessDesc(const pybind11::array_t<float> & desc_
 
 int ofpy3::OpenFABMAPPython::getLastMatch() const { return lastMatch; }
 
-int ofpy3::OpenFABMAPPython::getLastLikelihood() const { return lastLikelihood; }
+double ofpy3::OpenFABMAPPython::getLastLikelihood() const { return lastLikelihood; }
 
 pybind11::list ofpy3::OpenFABMAPPython::getBestLoopClosures() const {
   return bestLoopClosures;
