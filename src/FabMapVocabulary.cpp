@@ -98,7 +98,7 @@ void ofpy3::FabMapVocabulary::save(cv::FileStorage fileStorage) const {
   fileStorage << "Vocabulary" << vocab;
 }
 
-void ofpy3::FabMapVocabulary::save(const std::string filename) const {
+void ofpy3::FabMapVocabulary::saveToFile(const std::string filename) const {
   cv::FileStorage fs;
   fs.open(filename, cv::FileStorage::WRITE);
   save(fs);
@@ -115,7 +115,7 @@ ofpy3::FabMapVocabulary::load(const pybind11::dict &settings,
       vocab);
 }
 
-std::shared_ptr<ofpy3::FabMapVocabulary> ofpy3::FabMapVocabulary::load(
+std::shared_ptr<ofpy3::FabMapVocabulary> ofpy3::FabMapVocabulary::loadFromFile(
     const std::string filename){
   cv::FileStorage fs;
   fs.open(filename, cv::FileStorage::READ);

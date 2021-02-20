@@ -32,12 +32,12 @@ public:
   void convert();
 
   void save(cv::FileStorage fileStorage) const;
-  void save(const std::string filename) const;
+  void saveToFile(const std::string filename) const;
 
   static std::shared_ptr<FabMapVocabulary> load(
       const pybind11::dict &settings,
       cv::FileStorage fileStorage);
-  static std::shared_ptr<FabMapVocabulary> load(
+  static std::shared_ptr<FabMapVocabulary> loadFromFile(
       const std::string filename);
 
 private:
