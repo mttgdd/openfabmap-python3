@@ -18,6 +18,9 @@ ofpy3::FabMapVocabulary::FabMapVocabulary(
     : detector(std::move(detector)), extractor(std::move(extractor)),
       vocab(std::move(vocabulary)) {}
 
+ofpy3::FabMapVocabulary::FabMapVocabulary(cv::Mat vocabulary)
+    : vocab(std::move(vocabulary)) {}
+
 cv::Mat ofpy3::FabMapVocabulary::getVocabulary() const { return vocab; }
 
 cv::Mat
@@ -95,6 +98,12 @@ void ofpy3::FabMapVocabulary::save(cv::FileStorage fileStorage) const {
   fileStorage << "Vocabulary" << vocab;
 }
 
+void ofpy3::FabMapVocabulary::save(const std::string filename) const {
+  cv::FileStorage fs;
+  fs.open(filename, cv::FileStorage::WRITE);
+  save(fs);
+}
+
 std::shared_ptr<ofpy3::FabMapVocabulary>
 ofpy3::FabMapVocabulary::load(const pybind11::dict &settings,
                               cv::FileStorage fileStorage) {
@@ -105,6 +114,18 @@ ofpy3::FabMapVocabulary::load(const pybind11::dict &settings,
       ofpy3::generateDetector(settings), ofpy3::generateExtractor(settings),
       vocab);
 }
+
+std::shared_ptr<ofpy3::FabMapVocabulary> ofpy3::FabMapVocabulary::load(
+    const std::string filename){
+  cv::FileStorage fs;
+  fs.open(filename, cv::FileStorage::READ);
+
+  cv::Mat vocab;
+  fileStorage["Vocabulary"] >> vocab;
+
+  return std::make_shared<ofpy3::FabMapVocabulary>(vocab);
+}
+
 
 // ----------------- FabMapVocabularyBuilder -----------------
 

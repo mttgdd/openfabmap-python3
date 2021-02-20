@@ -17,6 +17,7 @@ public:
   FabMapVocabulary(cv::Ptr<cv::FeatureDetector> detector,
                    cv::Ptr<cv::DescriptorExtractor> extractor,
                    cv::Mat vocabulary);
+  FabMapVocabulary(cv::Mat vocabulary);
   virtual ~FabMapVocabulary() = default;
 
   cv::Mat getVocabulary() const;
@@ -30,8 +31,13 @@ public:
   void convert();
 
   void save(cv::FileStorage fileStorage) const;
-  static std::shared_ptr<FabMapVocabulary> load(const pybind11::dict &settings,
-                                                cv::FileStorage fileStorage);
+  void save(const std::string filename) const;
+
+  static std::shared_ptr<FabMapVocabulary> load(
+      const pybind11::dict &settings,
+      cv::FileStorage fileStorage);
+  static std::shared_ptr<FabMapVocabulary> load(
+      const std::string filename);
 
 private:
   cv::Ptr<cv::FeatureDetector> detector;

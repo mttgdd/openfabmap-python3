@@ -13,7 +13,9 @@ PYBIND11_MODULE(openfabmap_python3, m) {
   PyEval_InitThreads();
 
   pybind11::class_<ofpy3::FabMapVocabulary,
-                   std::shared_ptr<ofpy3::FabMapVocabulary>>(m, "Vocabulary");
+                   std::shared_ptr<ofpy3::FabMapVocabulary>>(m, "FabMapVocabulary")
+      .def("load", &ofpy3::FabMapVocabulary::load)
+      .def("save", &ofpy3::FabMapVocabulary::save);
 
   pybind11::class_<ofpy3::FabMapVocabularyBuilder,
                    std::shared_ptr<ofpy3::FabMapVocabularyBuilder>>(
@@ -32,22 +34,18 @@ PYBIND11_MODULE(openfabmap_python3, m) {
 
   pybind11::class_<ofpy3::ChowLiuTree, std::shared_ptr<ofpy3::ChowLiuTree>>(
       m, "ChowLiuTree")
-      .def(pybind11::init<std::shared_ptr<ofpy3::FabMapVocabulary>,
-                          pybind11::dict>())
+      .def(pybind11::init<std::shared_ptr<ofpy3::FabMapVocabulary>, pybind11::dict>())
       .def("add_training_image", &ofpy3::ChowLiuTree::addTrainingImage)
       .def("add_training_desc", &ofpy3::ChowLiuTree::addTrainingDesc)
-      .def("load_and_add_training_image",
-           &ofpy3::ChowLiuTree::loadAndAddTrainingImage)
+      .def("load_and_add_training_image", &ofpy3::ChowLiuTree::loadAndAddTrainingImage)
       .def("build_chow_liu_tree", &ofpy3::ChowLiuTree::buildChowLiuTree)
       .def("save", &ofpy3::ChowLiuTree::save)
       .def("load", &ofpy3::ChowLiuTree::load);
 
   pybind11::class_<ofpy3::OpenFABMAPPython,
                    std::shared_ptr<ofpy3::OpenFABMAPPython>>(m, "OpenFABMAP")
-      .def(
-          pybind11::init<std::shared_ptr<ofpy3::ChowLiuTree>, pybind11::dict>())
-      .def("load_and_process_image",
-           &ofpy3::OpenFABMAPPython::loadAndProcessImage)
+      .def(pybind11::init<std::shared_ptr<ofpy3::ChowLiuTree>, pybind11::dict>())
+      .def("load_and_process_image", &ofpy3::OpenFABMAPPython::loadAndProcessImage)
       .def("process_image", &ofpy3::OpenFABMAPPython::ProcessImage)
       .def("process_desc", &ofpy3::OpenFABMAPPython::ProcessDesc)
       .def("add_desc", &ofpy3::OpenFABMAPPython::addDesc)
