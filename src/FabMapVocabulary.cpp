@@ -138,7 +138,7 @@ bool ofpy3::FabMapVocabularyBuilder::addTrainingImage(
 }
 
 void ofpy3::FabMapVocabularyBuilder::addTrainingDescs(
-    const pybind11::array_t<uchar> &descs) {
+    const pybind11::array_t<descs_arr> &descs) {
   NDArrayConverter cvt;
   cv::Mat mat{cvt.toMat(descs.ptr())};
   addTrainingDescsInternal(mat);

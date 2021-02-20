@@ -48,7 +48,7 @@ public:
   void initDetectorExtractor(pybind11::dict settings);
   bool loadAndAddTrainingImage(std::string imagePath);
   bool addTrainingImage(const pybind11::array_t<uchar> &frame);
-  void addTrainingDescs(const pybind11::array_t<uchar> &descs);
+  void addTrainingDescs(const pybind11::array_t<float> &descs_arr);
 
   std::shared_ptr<FabMapVocabulary> buildVocabulary();
 
