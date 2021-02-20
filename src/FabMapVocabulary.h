@@ -6,6 +6,7 @@
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
