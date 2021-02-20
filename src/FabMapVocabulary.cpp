@@ -121,7 +121,7 @@ std::shared_ptr<ofpy3::FabMapVocabulary> ofpy3::FabMapVocabulary::load(
   fs.open(filename, cv::FileStorage::READ);
 
   cv::Mat vocab;
-  fileStorage["Vocabulary"] >> vocab;
+  fs["Vocabulary"] >> vocab;
 
   return std::make_shared<ofpy3::FabMapVocabulary>(vocab);
 }
