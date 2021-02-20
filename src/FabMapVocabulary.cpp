@@ -21,6 +21,8 @@ ofpy3::FabMapVocabulary::FabMapVocabulary(
 ofpy3::FabMapVocabulary::FabMapVocabulary(cv::Mat vocabulary)
     : vocab(std::move(vocabulary)) {}
 
+ofpy3::FabMapVocabulary::FabMapVocabulary() {}
+
 cv::Mat ofpy3::FabMapVocabulary::getVocabulary() const { return vocab; }
 
 cv::Mat

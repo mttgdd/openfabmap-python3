@@ -19,6 +19,7 @@ public:
                    cv::Ptr<cv::DescriptorExtractor> extractor,
                    cv::Mat vocabulary);
   FabMapVocabulary(cv::Mat vocabulary);
+  FabMapVocabulary();
   virtual ~FabMapVocabulary() = default;
 
   cv::Mat getVocabulary() const;

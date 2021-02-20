@@ -14,6 +14,7 @@ PYBIND11_MODULE(openfabmap_python3, m) {
 
   pybind11::class_<ofpy3::FabMapVocabulary,
                    std::shared_ptr<ofpy3::FabMapVocabulary>>(m, "FabMapVocabulary")
+      .def(pybind11::init<pybind11::dict>())
       .def("load", &ofpy3::FabMapVocabulary::loadFromFile)
       .def("save", &ofpy3::FabMapVocabulary::saveToFile);
 
