@@ -54,6 +54,20 @@ ofpy3::FabMapVocabulary::generateBOWImageDescsInternal(cv::Mat desc) const {
   return bow;
 }
 
+pybind11::array_t<float> ofpy3::FabMapVocabulary::generateBOWImageDescsExt(
+    const pybind11::array_t<float> &desc_arr) const {
+  NDArrayConverter cvt;
+  cv::Mat desc{cvt.toMat(desc_arr.ptr())};
+
+  cv::Mat bow = generateBOWImageDescsInternal(desc);
+
+  pybind11::array_t<float> out;
+  out.ptr() = cvt.toNDArray(bow);
+
+  return out;
+}
+
+
 void ofpy3::FabMapVocabulary::compute(
     cv::Ptr<cv::DescriptorMatcher> dmatcher, cv::Mat keypointDescriptors,
     cv::Mat &_imgDescriptor ) const

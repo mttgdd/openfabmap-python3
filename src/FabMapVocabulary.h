@@ -25,6 +25,7 @@ public:
   cv::Mat getVocabulary() const;
   cv::Mat generateBOWImageDescs(const cv::Mat &frame) const;
   cv::Mat generateBOWImageDescsInternal(cv::Mat desc) const;
+  pybind11::array_t<float> generateBOWImageDescsExt(const pybind11::array_t<float> &desc_arr) const;
 
   void compute(
       cv::Ptr<cv::DescriptorMatcher> dmatcher, cv::Mat keypointDescriptors,
