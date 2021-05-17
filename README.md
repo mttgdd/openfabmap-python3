@@ -14,6 +14,12 @@ Other requirements, such as [openFABMAP](https://github.com/arrenglover/openfabm
 
 # Installation
 
+## Docker
+
+There is a pre-built docker image available: https://hub.docker.com/r/matthewgadd/openfabmap-python3
+
+## From source
+
 OpenCV needs to be installed separately. Once that is done, configure the install for your preferred python version.
 
 ```bash
