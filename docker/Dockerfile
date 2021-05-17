@@ -30,6 +30,9 @@ RUN add-apt-repository --remove ppa:xqms/opencv-nonfree \
 	&& apt-get install -y libopencv-dev \
 	&& apt-get install -y libopencv-nonfree-dev
 
+# tbb
+RUN apt-get -y install libtbb-dev
+
 # numpy
 RUN pip install numpy==1.17.0
 
