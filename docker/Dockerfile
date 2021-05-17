@@ -30,6 +30,9 @@ RUN add-apt-repository --remove ppa:xqms/opencv-nonfree \
 	&& apt-get install -y libopencv-dev \
 	&& apt-get install -y libopencv-nonfree-dev
 
+# numpy
+RUN pip install numpy==1.17.0
+
 # this repo
 RUN mkdir -p /root/code/openfabmap-python3
 WORKDIR /root/code/openfabmap-python3
