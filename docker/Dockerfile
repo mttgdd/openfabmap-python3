@@ -44,6 +44,8 @@ RUN mkdir build \
 	&& cd build \
 	&& cmake ../src -DPYTHON_EXECUTABLE=/usr/bin/python3.6 \
 	&& make -j5
+ENV PYTHONPATH "${PYTHONPATH}:/root/code/openfabmap-python3/build/lib"
 
 # entry point at a working dir
+WORKDIR /root
 ENTRYPOINT ["/bin/bash"]
