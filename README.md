@@ -28,6 +28,12 @@ and run using
 docker run --rm -it matthewgadd/openfabmap-python3:latest
 ```
 
+Or alternatively, from within the directory `/path/to/openfabmap-python3/src/docker`, you can build the docker image from scratch:
+
+```bash
+docker build -t matthewgadd/openfabmap-python3:latest .
+```
+
 ## From source
 
 OpenCV needs to be installed separately. Once that is done, configure the install for your preferred python version.
