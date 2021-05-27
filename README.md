@@ -16,7 +16,17 @@ Other requirements, such as [openFABMAP](https://github.com/arrenglover/openfabm
 
 ## Docker
 
-There is a pre-built docker image available: https://hub.docker.com/r/matthewgadd/openfabmap-python3
+There is a pre-built docker image available: https://hub.docker.com/r/matthewgadd/openfabmap-python3. This can be pulled from the registery using
+
+```bash
+docker pull matthewgadd/openfabmap-python3:latest
+```
+
+and run using
+
+```bash
+docker run --rm -it matthewgadd/openfabmap-python3:latest
+```
 
 ## From source
 
@@ -30,10 +40,20 @@ cmake  ../src -DPYTHON_EXECUTABLE=/usr/local/bin/python3.7
 make -j
 ```
 
-Test that installation was successful as follows:
+## Path
+
+For the docker solution, path has already been set. Otherwise, when installing from source:
 
 ```bash
-python -c "from lib import openfabmap_python3"
+export PYTHONAPTH=$PYTHONPATH:/path/to/openfabmap-python3/build/lib
+```
+
+## Test installation
+
+Test the installation and path setup were successful as follows:
+
+```bash
+python -c "import openfabmap_python3"
 ```
 
 # Usage Instructions
