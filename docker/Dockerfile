@@ -34,7 +34,7 @@ RUN add-apt-repository --remove ppa:xqms/opencv-nonfree \
 RUN apt-get -y install libtbb-dev
 
 # numpy
-RUN pip install numpy==1.17.0
+RUN pip install numpy==1.17.0 Pillow opencv-python
 
 # this repo
 RUN mkdir -p /root/code/openfabmap-python3
